@@ -15,6 +15,18 @@ class Recipes extends clsModel {
         $settings = Recipes::GetInstance();
         return $settings->LoadById($id);
     }
+    public static function SaveRecipe($data){
+        $recipes = Recipes::GetInstance();
+        if(isset($data['id']) && !is_null($recipes->LoadById($data['id']))){
+            echo "[";
+            print_r($recipes->LoadById($data['id']));
+            echo "]";
+            return $recipes->Save($data,['id'=>$data['id']]);
+        }
+        return $recipes->Save($data);
+    }
+
+
     public $table_name = "Recipes";
     public $fields = [
         [
@@ -34,9 +46,9 @@ class Recipes extends clsModel {
         ],[
             'Field'=>"instructions",
             'Type'=>"text",
-            'Null'=>"NO",
+            'Null'=>"YES",
             'Key'=>"",
-            'Default'=>"",
+            'Default'=>null,
             'Extra'=>""
         ],[
             'Field'=>"user_id",
@@ -69,9 +81,9 @@ class Recipes extends clsModel {
         ],[
             'Field'=>"cook_unit",
             'Type'=>"varchar(10)",
-            'Null'=>"NO",
+            'Null'=>"YES",
             'Key'=>"",
-            'Default'=>"",
+            'Default'=>null,
             'Extra'=>""
         ],[
             'Field'=>"side_id",

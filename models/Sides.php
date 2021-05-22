@@ -12,10 +12,18 @@ class Sides extends clsModel {
         return $settings->LoadAll();
     }
     public static function LoadSideId($id){
-        $settings = sides::GetInstance();
+        $settings = Sides::GetInstance();
         return $settings->LoadById($id);
     }
-    public $table_name = "Recipes";
+    public static function SaveSide($data){
+        $recipes = Sides::GetInstance();
+        if(isset($data['id']) && !is_null($recipes->LoadById($data['id']))){
+            return $recipes->Save($data,['id'=>$data['id']]);
+        }
+        return $recipes->Save($data);
+    }
+
+    public $table_name = "Sides";
     public $fields = [
         [
             'Field'=>"id",
@@ -34,9 +42,9 @@ class Sides extends clsModel {
         ],[
             'Field'=>"instructions",
             'Type'=>"text",
-            'Null'=>"NO",
+            'Null'=>"YES",
             'Key'=>"",
-            'Default'=>"",
+            'Default'=>null,
             'Extra'=>""
         ],[
             'Field'=>"user_id",
@@ -69,16 +77,9 @@ class Sides extends clsModel {
         ],[
             'Field'=>"cook_unit",
             'Type'=>"varchar(10)",
-            'Null'=>"NO",
+            'Null'=>"YES",
             'Key'=>"",
-            'Default'=>"",
-            'Extra'=>""
-        ],[
-            'Field'=>"side_id",
-            'Type'=>"int(11)",
-            'Null'=>"NO",
-            'Key'=>"",
-            'Default'=>"0",
+            'Default'=>null,
             'Extra'=>""
         ],[
             'Field'=>"thaw_time",
