@@ -18,9 +18,6 @@ class Recipes extends clsModel {
     public static function SaveRecipe($data){
         $recipes = Recipes::GetInstance();
         if(isset($data['id']) && !is_null($recipes->LoadById($data['id']))){
-            echo "[";
-            print_r($recipes->LoadById($data['id']));
-            echo "]";
             return $recipes->Save($data,['id'=>$data['id']]);
         }
         return $recipes->Save($data);

@@ -11,7 +11,7 @@ if(!defined('MYSQL_CLASS')){
 		var $db;
 		private $database;
 		private $id;
-		
+		public $last_sql;
 		public static $db_g;
 
 		function __construct($dbname, $username, $password){
@@ -26,6 +26,7 @@ if(!defined('MYSQL_CLASS')){
 		
 		function _query($sql){
 			//$sql = preg_replace("/;/","",$sql);
+			$this->last_sql = $sql;
 			$result = @mysqli_query($this->db, $sql);
 			return $result;
 		}
@@ -102,7 +103,7 @@ if(!defined('MYSQL_CLASS')){
 					$structure .= "`$key`,";
 					if($value == "NOW()")
 						$values .= "NOW(),";
-					elseif(is_null($value) || $value == "")
+					elseif(is_null($value) || $value == "" || $value === "")
 						$values .= "NULL,";
 					else
 						$values .= "'$value',";

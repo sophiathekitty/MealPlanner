@@ -15,6 +15,13 @@ class MealPlan extends clsModel {
         $meals = MealPlan::GetInstance();
         return $meals->LoadWhere(['date'=>date("Y-m-d",time()+DaysToSeconds(1))]);
     }
+    public static function SaveMeal($meal){
+        $meals = MealPlan::GetInstance();
+        if(is_null($meals->LoadWhere(['date'=>$meal['date']]))){
+            return $meals->Save($meal);
+        }
+        return $meals->Save($meal,['date'=>$meal['date']]);
+    }
     public $table_name = "MealPlan";
     public $fields = [
         [
