@@ -17,8 +17,15 @@ class Sides extends clsModel {
     }
     public static function SaveSide($data){
         $recipes = Sides::GetInstance();
-        if(isset($data['id']) && !is_null($recipes->LoadById($data['id']))){
+        $side = $recipes->LoadById($data['id']);
+        //print_r($data);
+        //print_r($side);
+        if(isset($data['id']) && !is_null($side)){
             return $recipes->Save($data,['id'=>$data['id']]);
+        }
+        if(isset($data['id']) && (int)$data['id'] == 0){
+            $recipes->Save($data);
+            $recipes->Save($data,['name'=>$data['name']]);
         }
         return $recipes->Save($data);
     }
