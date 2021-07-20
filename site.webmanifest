@@ -1,6 +1,6 @@
 {
-    "name":"null micro display",
-    "short_name":"micro display",
+    "name":"Meal Planner",
+    "short_name":"Meals",
     "icons":[
         {
             "src":"/images/favicon/android-chrome-192x192.png",
@@ -22,5 +22,6 @@
     "theme_color":"#32ee61",
     "background_color":"#063b14",
     "display": "standalone",
-    "scope":"/"
+    "scope":"/",
+    "git":"https://github.com/sophiathekitty/MealPlanner"
 }
