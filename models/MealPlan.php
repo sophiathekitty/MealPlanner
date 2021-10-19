@@ -11,9 +11,9 @@ class MealPlan extends clsModel {
         $meals = MealPlan::GetInstance();
         return $meals->LoadWhere(['date'=>date("Y-m-d")]);
     }
-    public static function GetTomorrowsMeal(){
+    public static function GetTomorrowsMeal($days = 1){
         $meals = MealPlan::GetInstance();
-        return $meals->LoadWhere(['date'=>date("Y-m-d",time()+DaysToSeconds(1))]);
+        return $meals->LoadWhere(['date'=>date("Y-m-d",time()+DaysToSeconds($days))]);
     }
     public static function SaveMeal($meal){
         $meals = MealPlan::GetInstance();
