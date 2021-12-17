@@ -1,0 +1,52 @@
+.chef::before{
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-position: center center;
+    background-size: contain;
+    background-image: url(/extensions/MealPlanner/images/chef1.png);
+}
+
+.chef[face="1"][hat="pink"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-pink.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="2"][hat="pink"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-pink.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="3"][hat="pink"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-pink.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="4"][hat="pink"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-pink.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+
+
+.chef[face="1"][hat="purple"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-purple.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="2"][hat="purple"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-purple.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="3"][hat="purple"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-purple.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="4"][hat="purple"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-purple.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+
+.chef[face="1"][hat="green"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-green.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="2"][hat="green"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-green.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="3"][hat="green"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-green.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[face="4"][hat="green"]::before{
+    background-image: url(/extensions/MealPlanner/images/cook-hat-green.png), url(/extensions/MealPlanner/images/cook-face2.png), url(/extensions/MealPlanner/images/cook-none.png);
+}
+.chef[user_id="0"]::before{
+    content: none;
+}

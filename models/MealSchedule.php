@@ -49,6 +49,13 @@ class MealSchedule extends clsModel {
             'Key'=>"",
             'Default'=>"0",
             'Extra'=>""
+        ],[
+            'Field'=>"mandatory",
+            'Type'=>"tinyint(1)",
+            'Null'=>"NO",
+            'Key'=>"",
+            'Default'=>"0",
+            'Extra'=>""
         ]
     ];
 }

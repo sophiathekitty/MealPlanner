@@ -1,0 +1,23 @@
+[collection="weekly_schedule"] li {
+    position: relative;
+}
+[collection="weekly_schedule"] [var="mandatory"]::before{
+    content: none !important;
+}
+[collection="weekly_schedule"] [var="mandatory"]{
+    display: block;
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    right:0em;
+    top:0.1em;
+}
+[collection="weekly_schedule"] [var="mandatory"][val="0"]{
+    background-image: url(/extensions/MealPlanner/images/pin.png);
+}
+[collection="weekly_schedule"] [var="mandatory"][val="1"]{
+    background-image: url(/extensions/MealPlanner/images/pinned.png);
+}

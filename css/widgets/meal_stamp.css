@@ -1,0 +1,178 @@
+.meal_stamp{
+    position: relative;
+}
+.meal_stamp h1[var="recipe_name"],
+#info .meal_stamp h1[var="recipe_name"] {
+    background: none !important;
+    margin: 0em;
+    font-size: 1.75em;
+}
+.meal_stamp h2[var="side_name"]::before{
+    content: 'with';
+    margin-left: 2em;
+    margin-right: 0.2em;
+    font-size: 0.95em;
+}
+.meal_stamp h2[var="side_name"]{
+    content: 'with';
+    margin: 0em;
+    font-size: 0.85em;
+    text-align: center;
+}
+
+.meal_stamp [var="thaw_time"]::before,
+.meal_stamp [var="thawed"]::before{
+    content: 'thaw:';
+}
+.meal_stamp [var="prep_time"]::before,
+.meal_stamp [var="prepped"]::before{
+    content: 'prep:';
+}
+.meal_stamp [var="cook_time"]::before,
+.meal_stamp [var="cooked"]::before{
+    content: 'cook:';
+}
+.meal_stamp .times span::before,
+.meal_stamp .times span::after{
+    font-size: 0.65em;
+}
+.meal_stamp .times span{
+    font-size: 1.25em;
+    margin: 0.25em;
+}
+.meal_stamp .times {
+    display:flex;
+    flex-direction: row;
+}
+.meal_stamp .times span {
+    flex-grow: 1;
+    text-align: center;
+}
+.meal_stamp .tasks {
+    text-align: right;
+}
+a[task="thaw"]{
+    color: #4dbad2;
+}
+a[task="prep"]{
+    color: #f7c722;
+}
+a[task="cook"]{
+    /*color: #9f6316;*/
+    color: darkorange;
+}
+[step="none"] [var="thaw_time"],
+[step="none"] [var="prep_time"],
+[step="none"] [var="cook_time"],
+[step="none"] [var="cook_temp"],
+[step="none"] [var="timer"],
+[step="none"] [var="thawed"],
+[step="none"] [var="prepped"],
+[step="none"] [var="cooked"],
+[step="none"] [task="cook"],
+[step="none"] [task="thaw"],
+[step="none"] [task="prep"],
+[step="thaw"] [var="cook_temp"],
+[step="prep"] [var="cook_temp"],
+[step="done"] [var="cook_temp"],
+[step="thaw"] [var="timer"],
+[step="prep"] [var="timer"],
+[step="cook"] [var="timer"],
+[step="done"] [var="timer"],
+[step="thaw"] [var="thawed"],
+[step="thaw"] [var="prepped"],
+[step="thaw"] [var="cooked"],
+[step="thaw"] [task="prep"],
+[step="thaw"] [task="cook"],
+[step="prep"] [var="prepped"],
+[step="prep"] [var="cooked"],
+[step="prep"] [var="thaw_time"],
+[step="prep"] [task="thaw"],
+[step="prep"] [task="cook"],
+[step="cook"] [var="cooked"],
+[step="cook"] [task="change"],
+[step="cook"] [task="prep"],
+[step="cook"] [var="prep_time"],
+[step="cook"] [task="thaw"],
+[step="cook"] [var="thaw_time"],
+[step="cook"] [var="thawed"],
+[step="cooking"] [var="thawed"],
+[step="cooking"] [var="prepped"],
+[step="cooking"] [task="change"],
+[step="cooking"] [task="cook"],
+[step="cooking"] [task="prep"],
+[step="cooking"] [task="thaw"],
+[step="cooking"] [var="cook_time"],
+[step="cooking"] [var="prep_time"],
+[step="cooking"] [var="thaw_time"],
+[step="done"] [var="thawed"],
+[step="done"] [var="prepped"],
+[step="done"] [var="cooked"],
+[step="done"] [task="change"],
+[step="done"] [task="cook"],
+[step="done"] [task="prep"],
+[step="done"] [task="thaw"],
+[step="done"] [var="cook_time"],
+[step="done"] [var="prep_time"],
+[step="done"] [var="thaw_time"]{
+    display: none;
+}
+[task="change"]{
+    margin-left: 1em;
+    position: relative;
+}
+[task="change"]::before{
+    position: absolute;
+    content: '|';
+    left: -0.75em;
+    color: darkolivegreen;
+}
+
+.meal_stamp[day="today"]::before{
+    content:"Today";
+}
+.meal_stamp[day="tomorrow"]::before{
+    content:"Tomorrow";
+}
+.meal_stamp[day="tomorrow2"]::before{
+    content:"Day After Tomorrow";
+}
+.meal_stamp[day="tomorrow3"]::before{
+    content:"Three Days From Now";
+}
+
+.meal_stamp[day="today"]::before,
+.meal_stamp[day="tomorrow"]::before,
+.meal_stamp[day="tomorrow2"]::before,
+.meal_stamp[day="tomorrow3"]::before{
+    display: block;
+    text-align: right;
+    background-color: #98ed8a11;
+    color: #98ed8a;
+    padding: 0.5em;
+    padding-top: 1em;
+    font-size: 0.75em;
+}
+.meal_stamp[day="tomorrow"]::before,
+.meal_stamp[day="tomorrow2"]::before,
+.meal_stamp[day="tomorrow3"]::before{
+    margin-top: 2em;
+}
+.meal_stamp[day="tomorrow"],
+.meal_stamp[day="tomorrow2"],
+.meal_stamp[day="tomorrow3"]{
+    font-size: 0.75em;
+}
+.meal_stamp[day="tomorrow"] .tasks,
+.meal_stamp[day="tomorrow2"] .tasks,
+.meal_stamp[day="tomorrow3"] .tasks{
+    font-size: 1.25em;
+}
+.meal_stamp .chef{
+    position: absolute;
+    top:0.5em;
+    left:0.6em;
+}
+[side="0"] [var="side_name"] {
+    display: none;
+}

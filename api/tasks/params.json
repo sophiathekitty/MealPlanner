@@ -1,0 +1,10 @@
+{
+    "upcoming_tasks":{
+
+    },
+    "complete_task":
+    {
+        "date":"string[YYYY-MM-DD]",
+        "task":"string[thawed|prepped|cooked]"
+    }
+}

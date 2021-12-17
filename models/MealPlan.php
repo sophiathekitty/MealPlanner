@@ -1,11 +1,18 @@
 <?php
 class MealPlan extends clsModel {
     private static $settings = null;
+    /**
+     * @return MealPlan|clsModel
+     */
     private static function GetInstance(){
         if(is_null(MealPlan::$settings)){
             MealPlan::$settings = new MealPlan();
         }
         return MealPlan::$settings;
+    }
+    public static function GetMeal($date){
+        $meals = MealPlan::GetInstance();
+        return $meals->LoadWhere(['date'=>$date]);
     }
     public static function GetTodaysMeal(){
         $meals = MealPlan::GetInstance();
@@ -14,6 +21,12 @@ class MealPlan extends clsModel {
     public static function GetTomorrowsMeal($days = 1){
         $meals = MealPlan::GetInstance();
         return $meals->LoadWhere(['date'=>date("Y-m-d",time()+DaysToSeconds($days))]);
+    }
+    public static function GetLeftovers($days){
+        //$meals = MealPlan::GetInstance();
+        $date = date("Y-m-d",time()-DaysToSeconds($days));
+        return clsDB::$db_g->select("SELECT * FROM `MealPlan` WHERE `date` > '$date' AND `cooked` IS NOT NULL AND `leftovers_gone` IS NULL;");
+        //return $meals->LoadWhere(['date'=>date("Y-m-d")]);
     }
     public static function SaveMeal($meal){
         $meals = MealPlan::GetInstance();
