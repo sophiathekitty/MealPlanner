@@ -84,6 +84,13 @@ nav a::before{
 nav a::after{
     content: "}~";
 }
+a[href="#change"]:hover,
+a[href="#prep"]:hover,
+a[href="#cook"]:hover,
+a[href="#thaw"]:hover,
+a[href="#"]:hover{
+    text-decoration: none !important;
+}
 .null {
     white-space: nowrap;
     color: #98ed8a;

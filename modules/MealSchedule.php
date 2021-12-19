@@ -9,6 +9,7 @@ class MealScheduleStamp {
                 $schedule[$i]['side'] = MealStamp::Side($schedule[$i]['recipe']['side_id']);
 //                $schedule[$i]['name'] = $schedule[$i]['recipe']['name']." with ".$schedule[$i]['side']['name'];
             }
+            $schedule[$i]['user'] = Chef::LoadUserId($schedule[$i]['recipe']['user_id']);
         }
         return $schedule;
     }
