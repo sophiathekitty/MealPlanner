@@ -5,7 +5,7 @@ var meal_plan = new MealPlanController();
  */
 $(document).ready(function(){
     weekly_schedule.build();
-    meal_plan.ready();
+    //meal_plan.ready();
     //setInterval(RefreshViews,120000)
 });
 function RefreshViews(){

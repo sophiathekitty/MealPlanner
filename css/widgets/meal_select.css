@@ -1,0 +1,74 @@
+.popups #meal_select.popup {
+    display: grid;
+    grid-gap: 0.1em 0.1em;
+    grid-template-areas: 
+        "popup-header popup-header popup-header"
+        "recipe-label recipe-select recipe-select"
+        "side-label side-select side-select"
+        "spacer save-meal cancel-meal";
+}
+.popups #meal_select.popup h1 {
+    grid-area: popup-header;
+    margin-top: -0.5em;
+    margin-left: -0.5em;
+    margin-right: -0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+}
+
+.popups #meal_select.popup [for="recipe_id"] {
+    grid-area: recipe-label;
+}
+.popups #meal_select.popup [var="recipe_id"] {
+    grid-area: recipe-select;
+}
+
+.popups #meal_select.popup [for="side_id"] {
+    grid-area: side-label;
+}
+.popups #meal_select.popup [var="side_id"] {
+    grid-area: side-select;
+}
+
+.popups #meal_select.popup [action="save"] {
+    grid-area: save-meal;
+}
+.popups #meal_select.popup [action="cancel"] {
+    grid-area: cancel-meal;
+}
+
+
+
+
+
+
+
+.popups {
+    display: none;
+    position: fixed;
+    top:0em;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+    background-color: #0000006c;
+    z-index: 1000;
+}
+.popups .popup {
+    position: absolute;
+    top:50vh;
+    left:50vw;
+    width: 20em;
+    transform: translate(-10em,-5em);
+    z-index: 1001;
+    background-color: #554b2b;
+    padding: 0.5em;
+    overflow: hidden;
+}
+.popups .popup h1 {
+    display: block;
+    font-size: 1.25em;
+    color: var(--list_header_text);
+    background-color: var(--list_header_back);
+    margin: 0em;
+    width: 100%;
+}

@@ -2,9 +2,9 @@
  * view for displaying the forecast
  */
 class MealPlanView extends View {
-    constructor(){
-        console.log("MealPlanView::Constructor");
-        super(new MealPlanData(),null,new Template("meal_plan","/extensions/MealPlanner/templates/widgets/meal_stamp.html"));
+    constructor(debug = false){
+        if(debug) console.log("MealPlanView::Constructor");
+        super(new MealPlanData(),null,new Template("meal_plan","/extensions/MealPlanner/templates/widgets/meal_stamp.html"),60000,debug);
         this.pallet = ColorPallet.getPallet("calendar");
         this.days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
         this.date = new Date();
@@ -48,26 +48,26 @@ class MealPlanView extends View {
         
     }
     build(){
-        console.log("MealPlanView::Build");
+        if(this.debug) console.log("MealPlanView::Build");
         this.display();
         if(this.timerInterval) clearInterval(this.timerInterval);
         this.timerInterval = setInterval(this.cookTimer.bind(this),1000);
 
     }
     display(){
-        console.log("MealPlanView::Display");
+        if(this.debug) console.log("MealPlanView::Display");
         if(this.model){
-            console.log("MealPlanView::Display-has model");
+            if(this.debug) console.log("MealPlanView::Display-has model");
             this.model.getData(json=>{
-                console.log("MealPlanView::Display-json",json);
+                if(this.debug) console.log("MealPlanView::Display-json",json);
                 if(this.item_template){
                     this.item_template.getData(html=>{
-                        console.log("MealPlanView::Display-item_template",html);
+                        if(this.debug) console.log("MealPlanView::Display-item_template",html);
                         $("[collection=meal_plan]").html("");
                         json.meals.forEach((item,index)=>{
-                            console.log("MealPlanView::Display",index,item,item.recipe.name);
+                            if(this.debug) console.log("MealPlanView::Display",index,item,item.recipe.name);
                             $(html).appendTo("[collection=meal_plan]").attr("index",index);
-                            console.log($("[collection=meal_plan] [index="+index+"]"),item.recipe.name);
+                            if(this.debug) console.log($("[collection=meal_plan] [index="+index+"]"),item.recipe.name);
                             $("[collection=meal_plan] [index="+index+"]").attr("day",item.day);
                             $("[collection=meal_plan] [index="+index+"]").attr("date",item.date);
 
@@ -122,7 +122,7 @@ class MealPlanView extends View {
                             $("[collection=meal_plan] [index="+index+"] [var=cook_temp]").html(item.recipe.cook_level);
                             $("[collection=meal_plan] [index="+index+"] [var=cook_temp]").attr("val",item.recipe.cook_level);
                             $("[collection=meal_plan] [index="+index+"] [var=cook_temp]").attr("unit",item.recipe.cook_unit);
-                            console.log("MealPlanView::Display--chef:",item.chef);
+                            if(this.debug) console.log("MealPlanView::Display--chef:",item.chef);
                             if(item.chef){
                                 $("[collection=meal_plan] [index="+index+"] [var=chef_name]").html(item.chef.name);
                                 $("[collection=meal_plan] [index="+index+"] [var=chef_name]").attr("val",item.chef.name);
