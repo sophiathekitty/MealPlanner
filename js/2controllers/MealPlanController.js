@@ -11,20 +11,21 @@ class MealPlanController extends Controller {
         if(debug) console.log("MealPlanController::Constructor");
         super(new MealPlanView(), debug);
         this.popup = new MealSelectView();
+        this.popup.controller = this;
     }
     ready(){
         if(this.debug) console.log("MealPlanController::Ready");
         this.view.build();
         this.popup.build();
         //this.interval = setTimeout(this.refresh.bind(this),this.view.refresh_rate*View.refresh_ratio);
-        this.addButtonEvents();
+        //this.addButtonEvents();
         this.refresh();
     }
     addButtonEvents(){
         if(this.debug) console.log("MealPlanController::AddButtonEvents");
         this.clickTask();
         this.recipeChanged();
-        this.clickPopupButtons();
+        //this.clickPopupButtons();
     }
     clickTask(){
         if(this.debug) console.log("MealPlanController::ClickTask");

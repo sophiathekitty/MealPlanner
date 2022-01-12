@@ -176,3 +176,11 @@ a[task="cook"]{
 [side="0"] [var="side_name"] {
     display: none;
 }
+
+
+[view="rooms"] .meal_stamp[day="tomorrow3"],
+[view="weather"] .meal_stamp[day="tomorrow"],
+[view="weather"] .meal_stamp[day="tomorrow2"],
+[view="weather"] .meal_stamp[day="tomorrow3"]{
+    display: none;
+}

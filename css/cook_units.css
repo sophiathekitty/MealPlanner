@@ -1,9 +1,9 @@
-[unit="fahrenheit"]::before,
-[unit="air fry"]::before,
-[unit="stove"]::before,
-[unit="ricecooker"]::before,
-[unit="microwave"]::before,
-[unit="slow"]::before{
+.meal_stamp [unit="fahrenheit"]::before,
+.meal_stamp [unit="air fry"]::before,
+.meal_stamp [unit="stove"]::before,
+.meal_stamp [unit="ricecooker"]::before,
+.meal_stamp [unit="microwave"]::before,
+.meal_stamp [unit="slow"]::before{
     content: '';
     display: inline-block;
     width: 1.75em;
@@ -13,12 +13,12 @@
     margin-bottom: -0.5em;
     margin-right: 0.5em;
 }
-[unit="fahrenheit"]::before,
-[unit="air fry"]::before,
-[unit="stove"]::before,
-[unit="ricecooker"]::before,
-[unit="microwave"]::before,
-[unit="slow"]::before{
+.meal_stamp [unit="fahrenheit"]::before,
+.meal_stamp [unit="air fry"]::before,
+.meal_stamp [unit="stove"]::before,
+.meal_stamp [unit="ricecooker"]::before,
+.meal_stamp [unit="microwave"]::before,
+.meal_stamp [unit="slow"]::before{
     margin-top: -0.5em;
 }
 /*
@@ -31,21 +31,21 @@
     font-weight: bold;*
 }
 */
-[unit="fahrenheit"]::before{
+.meal_stamp [unit="fahrenheit"]::before{
     background-image: url(/extensions/MealPlanner/images/oven.png);
 }
-[unit="stove"]::before{
+.meal_stamp [unit="stove"]::before{
     background-image: url(/extensions/MealPlanner/images/stove.png);
 }
-[unit="ricecooker"]::before{
+.meal_stamp [unit="ricecooker"]::before{
     background-image: url(/extensions/MealPlanner/images/rice-cooker.png);
 }
-[unit="microwave"]::before{
+.meal_stamp [unit="microwave"]::before{
     background-image: url(/extensions/MealPlanner/images/microwave.png);
 }
-[unit="slow"]::before{
+.meal_stamp [unit="slow"]::before{
     background-image: url(/extensions/MealPlanner/images/slow-cooker.png);
 }
-[unit="air fry"]::before{
+.meal_stamp [unit="air fry"]::before{
     background-image: url(/extensions/MealPlanner/images/air-fryer.png);
 }

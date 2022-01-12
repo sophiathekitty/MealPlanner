@@ -4,7 +4,11 @@
 class MealPlanView extends View {
     constructor(debug = false){
         if(debug) console.log("MealPlanView::Constructor");
-        super(new MealPlanData(),null,new Template("meal_plan","/extensions/MealPlanner/templates/widgets/meal_stamp.html"),60000,debug);
+        super(
+            new MealPlanData(),
+            new Template("meal_plan","/extensions/MealPlanner/templates/meal_plan.html"),
+            new Template("meal_stamp","/extensions/MealPlanner/templates/widgets/meal_stamp.html"),
+            60000,debug);
         this.pallet = ColorPallet.getPallet("calendar");
         this.days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
         this.date = new Date();
@@ -49,7 +53,14 @@ class MealPlanView extends View {
     }
     build(){
         if(this.debug) console.log("MealPlanView::Build");
-        this.display();
+        if(this.template){
+            this.template.getData(html=>{
+                $(html).appendTo("main");
+                $("<a href=\"/extensions/MealPlanner/\" section=\"meals\">meals</a>").appendTo("nav.extensions");
+                this.display();
+                this.controller.addButtonEvents();
+            });
+        }
         if(this.timerInterval) clearInterval(this.timerInterval);
         this.timerInterval = setInterval(this.cookTimer.bind(this),1000);
 

@@ -19,6 +19,7 @@ class MealSelectView extends View {
                         sides.sides.forEach(side=>{
                             $("<option value=\""+side.id+"\">"+side.name+"</option>").appendTo("[var=side_id]");
                         });
+                        this.controller.clickPopupButtons();
                     });
                 });
             });
