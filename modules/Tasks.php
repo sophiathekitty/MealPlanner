@@ -60,7 +60,7 @@ class MealTasks {
                 if($task == "prepped") $task = "prep";
                 if($task == "cooked") $task = "cook";
                 $url = "http://".GetHubUrl()."/api/meal/?meal_date=$date&task=$task";
-            } else{
+            } else {
                 $url = "http://".GetHubUrl()."/extensions/MealPlanner/api/tasks?date=$date&task=$task";
             }
             $info = file_get_contents($url);

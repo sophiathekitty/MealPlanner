@@ -33,7 +33,11 @@ class SyncMealPlanners {
         return "http://".$this->hub."/api/meal/";
     }
     public function PullRecipesFromHub(){
-        $url = $this->GetHubUrl()."recipe?verbose=1";
+        $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/recipes";
+        if(HubType() == "old_hub"){
+            $url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?verbose=1";
+        }
+        //$url = $this->GetHubUrl()."recipe?verbose=1";
         //echo "$url\n";
         $info = file_get_contents($url);
         $data = json_decode($info,true);
@@ -49,8 +53,12 @@ class SyncMealPlanners {
         }
     }
     public function PullSidesFromHub(){
-        $url = $this->GetHubUrl()."recipe?sides=true&verbose=1";
+        //$url = $this->GetHubUrl()."recipe?sides=true&verbose=1";
         //echo "$url\n";
+        $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/sides";
+        if(HubType() == "old_hub"){
+            $url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?sides=true&verbose=1";
+        }
         $info = file_get_contents($url);
         $data = json_decode($info,true);
         //print_r($data);
@@ -65,7 +73,11 @@ class SyncMealPlanners {
         }
     }
     public function PullIngredientsFromHub(){
-        $url = $this->GetHubUrl()."recipe/ingredients";
+        //$url = $this->GetHubUrl()."recipe/ingredients";
+        $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/ingredients";
+        if(HubType() == "old_hub"){
+            $url = "http://localhost/api/requests/hub/?api=/api/meal/recipe/ingredients";
+        }
         //echo "$url\n";
         $info = file_get_contents($url);
         $data = json_decode($info,true);
@@ -86,7 +98,11 @@ class SyncMealPlanners {
     }
 
     public function PullMealPlanFromHub(){
-        $url = $this->GetHubUrl();
+        //$url = $this->GetHubUrl();
+        $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/meal/";
+        if(HubType() == "old_hub"){
+            $url = "http://localhost/api/requests/hub/?api=/api/meal/";
+        }
         $info = file_get_contents($url);
         $data = json_decode($info,true);
         //print_r($data['meal_plan']['today']);
