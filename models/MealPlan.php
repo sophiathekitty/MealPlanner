@@ -1,4 +1,7 @@
 <?php
+/**
+ * keeps track of what's for dinner
+ */
 class MealPlan extends clsModel {
     private static $settings = null;
     /**
@@ -10,24 +13,48 @@ class MealPlan extends clsModel {
         }
         return MealPlan::$settings;
     }
+    /**
+     * get a meal by date
+     * @param string $date the date the meal is happening
+     * @return array|null the meal data array or null if no meal on date
+     */
     public static function GetMeal($date){
         $meals = MealPlan::GetInstance();
         return $meals->LoadWhere(['date'=>$date]);
     }
+    /**
+     * gets today's meal
+     * @return array|null the meal data array or null if no meal
+     */
     public static function GetTodaysMeal(){
         $meals = MealPlan::GetInstance();
         return $meals->LoadWhere(['date'=>date("Y-m-d")]);
     }
+    /**
+     * gets upcoming meal
+     * @param int $day how many days into future? (1 = tomorrow)
+     * @return array|null the meal data array or null if no meal
+     */
     public static function GetTomorrowsMeal($days = 1){
         $meals = MealPlan::GetInstance();
         return $meals->LoadWhere(['date'=>date("Y-m-d",time()+DaysToSeconds($days))]);
     }
+    /**
+     * get left overs
+     * @param int $days how many days back to include
+     * @return array list of meals with leftovers
+     */
     public static function GetLeftovers($days){
         //$meals = MealPlan::GetInstance();
         $date = date("Y-m-d",time()-DaysToSeconds($days));
         return clsDB::$db_g->select("SELECT * FROM `MealPlan` WHERE `date` > '$date' AND `cooked` IS NOT NULL AND `leftovers_gone` IS NULL;");
         //return $meals->LoadWhere(['date'=>date("Y-m-d")]);
     }
+    /**
+     * save a meal
+     * @param array $meal the meal data array
+     * @return array save report
+     */
     public static function SaveMeal($meal){
         $meals = MealPlan::GetInstance();
         if(is_null($meals->LoadWhere(['date'=>$meal['date']]))){

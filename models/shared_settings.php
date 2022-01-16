@@ -1,16 +1,29 @@
 <?php
 class Settings extends clsModel {
     private static $settings = null;
+    /**
+     * @return Settings|clsModel
+     */
     public static function GetInstance(){
         if(is_null(Settings::$settings)){
             Settings::$settings = new Settings();
         }
         return Settings::$settings;
     }
+    /**
+     * load a setting var
+     * @param string $name the name of the var
+     * @param string|int|float|null $default
+     */
     public static function LoadSettingsVar($name,$default = null){
         $settings = Settings::GetInstance();
         return $settings->LoadVar($name,$default);
     }
+    /**
+     * save a setting var
+     * @param string $name the name of the var
+     * @param string|int|float $value
+     */
     public static function SaveSettingsVar($name,$value){
         $settings = Settings::GetInstance();
         return $settings->SaveVar($name,$value);

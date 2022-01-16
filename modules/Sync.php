@@ -1,10 +1,19 @@
 <?php
+/**
+ * sync meal planner data from the hub
+ */
 class SyncMealPlanners {
     private static $inst = null;
+    /**
+     * @return SyncMealPlanners
+     */
     private static function GetInstance(){
         if(is_null(SyncMealPlanners::$inst)) SyncMealPlanners::$inst = new SyncMealPlanners();
         return SyncMealPlanners::$inst;
     }
+    /**
+     * sync from the hub
+     */
     public static function Sync(){
         $inst = SyncMealPlanners::GetInstance();
         $inst->PullIngredientsFromHub();
@@ -12,6 +21,10 @@ class SyncMealPlanners {
         $inst->PullSidesFromHub();
         $inst->PullMealPlanFromHub();
     }
+    /**
+     * sync today's meal from the hub if it doesn't exist locally
+     * @return array today's meal
+     */
     public static function Today(){
         $inst = SyncMealPlanners::GetInstance();
         $meal = MealPlan::GetTodaysMeal();
@@ -19,6 +32,11 @@ class SyncMealPlanners {
         SyncMealPlanners::Sync();
         return MealPlan::GetTodaysMeal();
     }
+    /**
+     * sync upcoming meal from hub if it doesn't exist locally
+     * @param int $days how many days into the future (tomorrow = 1)
+     * @return array tomorrow's meal
+     */
     public static function Tomorrow($days = 1){
         $inst = SyncMealPlanners::GetInstance();
         $meal = MealPlan::GetTomorrowsMeal($days);
@@ -28,10 +46,18 @@ class SyncMealPlanners {
     }
 
     private $hub = null;
+    /**
+     * i think i can get rid of this?
+     */
+    /*
     private function GetHubUrl(){
         if(is_null($this->hub)) $this->hub = GetHubUrl();
         return "http://".$this->hub."/api/meal/";
     }
+    */
+    /**
+     * pull recipes from hub
+     */
     public function PullRecipesFromHub(){
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/recipes";
         if(HubType() == "old_hub"){
@@ -52,6 +78,9 @@ class SyncMealPlanners {
             }
         }
     }
+    /**
+     * pull sides from hub
+     */
     public function PullSidesFromHub(){
         //$url = $this->GetHubUrl()."recipe?sides=true&verbose=1";
         //echo "$url\n";
@@ -66,12 +95,15 @@ class SyncMealPlanners {
             Sides::SaveSide($side);
             echo clsDB::$db_g->get_err();
             foreach($side['ingredients'] as $ingredient){
-                $ingredient['recipe_id'] = $side['id'];
+                $ingredient['side_id'] = $side['id'];
                 MealSideIngredient::SaveItem($ingredient);
                 echo clsDB::$db_g->get_err();
             }
         }
     }
+    /**
+     * pull ingredients from hub
+     */
     public function PullIngredientsFromHub(){
         //$url = $this->GetHubUrl()."recipe/ingredients";
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/ingredients";
@@ -96,7 +128,9 @@ class SyncMealPlanners {
             }
         }
     }
-
+    /**
+     * pull 4 day meal plan (today, tomorrow, tomorrow2, tomorrow3)
+     */
     public function PullMealPlanFromHub(){
         //$url = $this->GetHubUrl();
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/meal/";
@@ -119,6 +153,11 @@ class SyncMealPlanners {
             MealSchedule::SaveDay($day);
         }
     }
+    /**
+     * cleans the meal of extra fields
+     * @param array $meal the raw meal array (probably a meal stamp)
+     * @return array the clean meal array
+     */
     private function CleanMealPlan($meal){
         $m = [
             "recipe_id" => $meal['id'],

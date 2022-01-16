@@ -1,9 +1,19 @@
 <?php
+/**
+ * scans the api directory for apis
+ * @return array the list of all the found apis
+ */
 function LocalAPIs(){
     global $root_path;
     return APIFolder($root_path,"api/");
 }
-
+/**
+ * scans the api directory for apis
+ * @param string $root the root path
+ * @param string $path the middle path
+ * @param array $apis the list of apis that have already been found
+ * @return array the list of all the found apis
+ */
 function APIFolder($root,$path,$apis = []){
     //echo "<br><b>$root$path</b><br>";
     $shared_models_dir = opendir($root.$path);
@@ -24,6 +34,14 @@ function APIFolder($root,$path,$apis = []){
     closedir($shared_models_dir);
     return $apis;
 }
+/**
+ * scans the child of an api directory for apis
+ * @param string $root the root path
+ * @param string $path the middle path
+ * @param string $api the top level api
+ * @param array $apis the list of apis that have already been found
+ * @return array the list of all the found apis
+ */
 function APIChildFolder($root,$path,$api,$apis){
     //echo "<br><b>$root$path</b><br>";
     $shared_models_dir = opendir($root.$path);
@@ -44,6 +62,15 @@ function APIChildFolder($root,$path,$api,$apis){
     closedir($shared_models_dir);
     return $apis;
 }
+/**
+ * scans the child of a child directory for apis
+ * @param string $root the root path
+ * @param string $path the middle path
+ * @param string $api the top level api
+ * @param string $parent the parent api
+ * @param array $apis the list of apis that have already been found
+ * @return array the list of all the found apis
+ */
 function APIGrandChildFolder($root,$path,$api,$parent,$apis){
     //echo "<br><b>$root$path</b><br>";
     $shared_models_dir = opendir($root.$path);

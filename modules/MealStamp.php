@@ -1,5 +1,12 @@
 <?php
+/**
+ * combines everything together for a meal (recipe and side and when to do stuff)
+ */
 class MealStamp {
+    /**
+     * makes meal stamp for today
+     * @return array the meal stamp
+     */
     public static function Today(){
         $today = SyncMealPlanners::Today();
         if(isset($today['recipe_id'])) $today['recipe'] = MealStamp::Recipe($today['recipe_id']); //Recipes::LoadRecipeId($today['recipe_id']);
@@ -13,6 +20,11 @@ class MealStamp {
         $today['thaw_at'] = date("Y-m-d H:i:s",strtotime($today['prep_at']) - HoursToSeconds($today['recipe']['thaw_time']));
         return $today;
     }
+    /**
+     * makes meal stamp for a future day
+     * @param int $days how many days into the future
+     * @return array the meal stamp
+     */
     public static function Tomorrow($days){
         $tomorrow = SyncMealPlanners::Tomorrow($days);
         if(isset($tomorrow['recipe_id'])) $tomorrow['recipe'] = MealStamp::Recipe($tomorrow['recipe_id']); //Recipes::LoadRecipeId($tomorrow['recipe_id']);
@@ -26,11 +38,21 @@ class MealStamp {
         $tomorrow['thaw_at'] = date("Y-m-d H:i:s",strtotime($tomorrow['prep_at']) - HoursToSeconds($tomorrow['recipe']['thaw_time']));
         return $tomorrow;
     }
+    /**
+     * loads a recipe and adds ingredients list
+     * @param int $recipe_id the id of the recipe
+     * @return array the recipe with ingredients
+     */
     public static function Recipe($recipe_id){
         $recipe = Recipes::LoadRecipeId($recipe_id);
         $recipe['ingredients'] = MealRecipeIngredient::LoadRecipeIngredients($recipe_id);
         return $recipe;
     }
+    /**
+     * loads a side and adds ingredients list
+     * @param int $side_id the id of the side
+     * @return array the side with ingredients
+     */
     public static function Side($side_id){
         $side = Sides::LoadSideId($side_id);
         $side['ingredients'] = MealSideIngredient::LoadRecipeIngredients($side_id);

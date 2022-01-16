@@ -13,6 +13,9 @@ class MealPlanController extends Controller {
         this.popup = new MealSelectView();
         this.popup.controller = this;
     }
+    /**
+     * build the views and start the refresh for them
+     */
     ready(){
         if(this.debug) console.log("MealPlanController::Ready");
         this.view.build();
@@ -21,12 +24,18 @@ class MealPlanController extends Controller {
         //this.addButtonEvents();
         this.refresh();
     }
+    /**
+     * add the task buttons and recipe change button
+     */
     addButtonEvents(){
         if(this.debug) console.log("MealPlanController::AddButtonEvents");
         this.clickTask();
         this.recipeChanged();
         //this.clickPopupButtons();
     }
+    /**
+     * setup task click handler
+     */
     clickTask(){
         if(this.debug) console.log("MealPlanController::ClickTask");
         this.click("[collection=meal_plan]","[model=meal_plan] a",e=>{
@@ -87,6 +96,9 @@ class MealPlanController extends Controller {
             }
         });
     }
+    /**
+     * setup change recipe click event
+     */
     recipeChanged(){
         if(this.debug) console.log("MealPlanController::recipeChanged");
         this.change(".popups","#meal_select [var=recipe_id]",e=>{
@@ -94,6 +106,9 @@ class MealPlanController extends Controller {
             $("#meal_select [var=side_id]").val($("#meal_select [var=recipe_id] [value="+$(e.currentTarget).val()+"]").attr("side"));
         });
     }
+    /**
+     * setup popup button handlers
+     */
     clickPopupButtons(){
         if(this.debug) console.log("MealPlanController::clickPopupButtons");
         this.click(".popups","#meal_select [action=save]",e=>{
@@ -133,6 +148,9 @@ class MealPlanController extends Controller {
             $(".popups").hide();
         });
     }
+    /**
+     * do refresh based on view refresh ratio
+     */
     refresh(){
         clearTimeout(this.interval);
         this.view.display();

@@ -15,6 +15,10 @@ class MealPlanView extends View {
         this.cook_time = 0;
         
     }
+    /**
+     * handles the cooking time
+     * @todo not working
+     */
     cookTimer(){
         if(this.cook_time > 0){
             var now = new Date();
@@ -28,6 +32,11 @@ class MealPlanView extends View {
             $("[model=meal_plan] [var=timer]").html(time_txt);
         }
     }
+    /**
+     * converts milliseconds to time string
+     * @param {Number} mms milliseconds
+     * @returns {string} time h:mm:ss or m:ss
+     */
     MillisecondsToTime(mms){
         var seconds = Math.floor(mms / 1000);
         var min = 0;
@@ -51,6 +60,9 @@ class MealPlanView extends View {
         return min+":"+seconds;
         
     }
+    /**
+     * build the meal plan adds the main holder
+     */
     build(){
         if(this.debug) console.log("MealPlanView::Build");
         if(this.template){
@@ -64,8 +76,10 @@ class MealPlanView extends View {
         }
         if(this.timerInterval) clearInterval(this.timerInterval);
         this.timerInterval = setInterval(this.cookTimer.bind(this),1000);
-
     }
+    /**
+     * display the meal plan data. rebuilding the list every time
+     */
     display(){
         if(this.debug) console.log("MealPlanView::Display");
         if(this.model){
@@ -155,18 +169,18 @@ class MealPlanView extends View {
         //this.display();
     }
     /**
-     * 
-     * @param {string} date_string 
-     * @returns 
+     * converts a date string into the nice time display
+     * @param {string} date_string YYYY-MM-DD HH:MM:SS
+     * @returns {string} h:mm
      */
     dateStringToHourMin(date_string){
         var date = new Date(date_string);
         return this.dateToHourMin(date);
     }
     /**
-     * 
+     * date object to time string
      * @param {Date} date 
-     * @returns 
+     * @returns {string} h:mm
      */
     dateToHourMin(date){
         var h = date.getHours();
@@ -177,9 +191,14 @@ class MealPlanView extends View {
             am = "pm";
             h -= 12;
         }
-        if(h == 0) h = 12;
+        if(m < 10) m = "0"+m;
         return h+":"+m;
     }
+    /**
+     * figures out if the date string is am or pm
+     * @param {string} date_string YYYY-MM-DD HH:MM:SS
+     * @returns {string} am or pm
+     */
     dateStringToAM(date_string){
         var date = new Date(date_string);
         var h = date.getHours();

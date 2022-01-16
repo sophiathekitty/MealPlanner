@@ -1,31 +1,53 @@
 <?php
 class Chef extends clsModel {
-    private static $instance = null;
+    private static $chef = null;
+    /**
+     * @return Chef|clsModel
+     */
     private static function GetInstance(){
-        if(is_null(Chef::$instance)){
-            Chef::$instance = new Chef();
+        if(is_null(Chef::$chef)){
+            Chef::$chef = new Chef();
         }
-        return Chef::$instance;
+        return Chef::$chef;
     }
+    /**
+     * loads all chefs
+     * @return array list of chefs
+     */
     public static function LoadItems(){
-        $instance = Chef::GetInstance();
-        return $instance->LoadAll();
+        $chef = Chef::GetInstance();
+        return $chef->LoadAll();
     }
+    /**
+     * load chef by id
+     * @param int $id chef id
+     * @return array|null chef data array or null if none
+     */
     public static function LoadItemId($id){
-        $instance = Chef::GetInstance();
-        return $instance->LoadById($id);
+        $chef = Chef::GetInstance();
+        return $chef->LoadById($id);
     }
+    /**
+     * load chef by user_id
+     * @param int $user_id chef id
+     * @return array|null chef data array or null if none
+     */
     public static function LoadUserId($user_id){
-        $instance = Chef::GetInstance();
-        return $instance->LoadWhere(["user_id"=>$user_id]);
+        $chef = Chef::GetInstance();
+        return $chef->LoadWhere(["user_id"=>$user_id]);
     }
+    /**
+     * save chef
+     * @param array $data chef data array
+     * @return array save report
+     */
     public static function SaveItem($data){
-        $recipes = Chef::GetInstance();
-        $data = $recipes->CleanData($data);
-        if(isset($data['id']) && !is_null($recipes->LoadById($data['id']))){
-            return $recipes->Save($data,['id'=>$data['id']]);
+        $chef = Chef::GetInstance();
+        $data = $chef->CleanData($data);
+        if(isset($data['id']) && !is_null($chef->LoadById($data['id']))){
+            return $chef->Save($data,['id'=>$data['id']]);
         }
-        return $recipes->Save($data);
+        return $chef->Save($data);
     }
 
 

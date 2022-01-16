@@ -4,6 +4,9 @@ class MealSelectView extends View {
         super(new RecipesCollection(),new Template("meal_select","/extensions/MealPlanner/templates/widgets/meal_select.html"),null,60000,debug);
         this.sides = new SidesCollection();
     }
+    /**
+     * build the meal select popup
+     */
     build(){
         if(this.debug) console.log("MealSelect::Build",$("#meal_select").length);
         if(this.template && this.model && this. sides && !$("#meal_select").length){
@@ -25,9 +28,16 @@ class MealSelectView extends View {
             });
         }
     }
+    /**
+     * do nothing
+     */
     display(){
         if(this.debug) console.warn("MealSelectView::Display","No Meal To Display");
     }
+    /**
+     * display a meal 
+     * @param {json} meal meal to display
+     */
     display(meal){
         $("#meal_select [var=recipe_id]").val(meal.recipe_id);
         $("#meal_select [var=side_id]").val(meal.side_id);

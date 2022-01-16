@@ -1,20 +1,37 @@
 <?php
 class Recipes extends clsModel {
-    private static $settings = null;
+    private static $recipes = null;
+    /**
+     * @return Recipes|clsModel
+     */
     private static function GetInstance(){
-        if(is_null(Recipes::$settings)){
-            Recipes::$settings = new Recipes();
+        if(is_null(Recipes::$recipes)){
+            Recipes::$recipes = new Recipes();
         }
-        return Recipes::$settings;
+        return Recipes::$recipes;
     }
+    /**
+     * load all recipes
+     * @return array list of all recipes
+     */
     public static function LoadRecipes(){
-        $settings = Recipes::GetInstance();
-        return $settings->LoadAll();
+        $recipes = Recipes::GetInstance();
+        return $recipes->LoadAll();
     }
+    /**
+     * load recipe by id
+     * @param int $id the recipe id
+     * @return array data array of recipe
+     */
     public static function LoadRecipeId($id){
-        $settings = Recipes::GetInstance();
-        return $settings->LoadById($id);
+        $recipes = Recipes::GetInstance();
+        return $recipes->LoadById($id);
     }
+    /**
+     * save a recipe
+     * @param array $data recipe data array
+     * @return array save report
+     */
     public static function SaveRecipe($data){
         $recipes = Recipes::GetInstance();
         $data = $recipes->CleanData($data);

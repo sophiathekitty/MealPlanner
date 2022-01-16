@@ -8,10 +8,16 @@ class WeeklyScheduleView extends View {
         this.pallet = ColorPallet.getPallet("calendar");
         this.days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
     }
+    /**
+     * acting as an alias for display
+     */
     build(){
         if(this.debug) console.log("WeeklyScheduleView::Build");
         this.display();
     }
+    /**
+     * rebuild schedule list and display info
+     */
     display(){
         if(this.debug) console.log("WeeklyScheduleView::Display");
         if(this.model){
@@ -36,6 +42,9 @@ class WeeklyScheduleView extends View {
             });
         }
     }
+    /**
+     * does nothing
+     */
     refresh(){
         //this.display();
     }

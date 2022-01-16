@@ -1,5 +1,12 @@
 <?php
+/**
+ * handles meal task stuff
+ */
 class MealTasks {
+    /**
+     * find any upcoming tasks (thaw,prep,cook)
+     * @return array an array of upcoming tasks
+     */
     public static function UpcomingTasks(){
         $meals = [];
         $meals[0] = MealStamp::Today();
@@ -47,6 +54,12 @@ class MealTasks {
         }
         return $tasks;
     }
+    /**
+     * completes a meal recipe task. if this isn't the hub it will complete it on hub as well
+     * @param string $data YYYY-MM-DD
+     * @param string $task thawed|prepped|cooked
+     * @return array save report
+     */
     public static function CompleteTask($date,$task){
         $data = [];
         $meal = MealPlan::GetMeal($date);

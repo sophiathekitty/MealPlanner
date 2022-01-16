@@ -1,20 +1,40 @@
 <?php
+/**
+ * the weekly meal schedule
+ */
 class MealSchedule extends clsModel {
     private static $settings = null;
+    /**
+     * @return MealSchedule|clsModel
+     */
     private static function GetInstance(){
         if(is_null(MealSchedule::$settings)){
             MealSchedule::$settings = new MealSchedule();
         }
         return MealSchedule::$settings;
     }
+    /**
+     * load all recipes
+     * @return array list of recipes
+     */
     public static function LoadRecipes(){
         $settings = MealSchedule::GetInstance();
         return $settings->LoadAll();
     }
+    /**
+     * load recipe by id
+     * @param int $id the recipe id
+     * @return array recipe data array
+     */
     public static function LoadRecipeId($id){
         $settings = MealSchedule::GetInstance();
         return $settings->LoadById($id);
     }
+    /**
+     * save a recipe
+     * @param array $data the recipe data array
+     * @return array save report
+     */
     public static function SaveDay($data){
         $recipes = MealSchedule::GetInstance();
         if(isset($data['id'])) $data['recipe_id'] = $data['id'];

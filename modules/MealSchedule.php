@@ -1,5 +1,12 @@
 <?php
+/**
+ * makes meal schedule stamp
+ */
 class MealScheduleStamp {
+    /**
+     * makes a meal schedule with recipe stamps
+     * @return array meal schedule
+     */
     public static function Schedule(){
         $schedule = MealSchedule::LoadRecipes();
         for($i = 0; $i < count($schedule); $i++){

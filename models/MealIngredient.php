@@ -1,27 +1,47 @@
 <?php
+/**
+ * defines an ingredient used in recipes
+ */
 class MealIngredient extends clsModel {
-    private static $settings = null;
+    private static $ingredients = null;
+    /**
+     * @return MealIngredient|clsModel
+     */
     private static function GetInstance(){
-        if(is_null(MealIngredient::$settings)){
-            MealIngredient::$settings = new MealIngredient();
+        if(is_null(MealIngredient::$ingredients)){
+            MealIngredient::$ingredients = new MealIngredient();
         }
-        return MealIngredient::$settings;
+        return MealIngredient::$ingredients;
     }
+    /**
+     * load all ingredients
+     * @return array list of ingredients
+     */
     public static function LoadItems(){
-        $settings = MealIngredient::GetInstance();
-        return $settings->LoadAll();
+        $ingredients = MealIngredient::GetInstance();
+        return $ingredients->LoadAll();
     }
+    /**
+     * load ingredient by id
+     * @param int $id the ingredient id
+     * @return array|null ingredient data array or null if none
+     */
     public static function LoadItemId($id){
-        $settings = MealIngredient::GetInstance();
-        return $settings->LoadById($id);
+        $ingredients = MealIngredient::GetInstance();
+        return $ingredients->LoadById($id);
     }
+    /**
+     * save ingredient
+     * @param array $data the data array
+     * @return array save report
+     */
     public static function SaveItem($data){
-        $recipes = MealIngredient::GetInstance();
-        $data = $recipes->CleanData($data);
-        if(isset($data['id']) && !is_null($recipes->LoadById($data['id']))){
-            return $recipes->Save($data,['id'=>$data['id']]);
+        $ingredients = MealIngredient::GetInstance();
+        $data = $ingredients->CleanData($data);
+        if(isset($data['id']) && !is_null($ingredients->LoadById($data['id']))){
+            return $ingredients->Save($data,['id'=>$data['id']]);
         }
-        return $recipes->Save($data);
+        return $ingredients->Save($data);
     }
 
 

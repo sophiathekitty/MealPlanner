@@ -1,33 +1,53 @@
 <?php
 class Sides extends clsModel {
-    private static $settings = null;
+    private static $sides = null;
+    /**
+     * @return Sides|clsModel
+     */
     private static function GetInstance(){
-        if(is_null(Sides::$settings)){
-            Sides::$settings = new Sides();
+        if(is_null(Sides::$sides)){
+            Sides::$sides = new Sides();
         }
-        return Sides::$settings;
+        return Sides::$sides;
     }
+    /**
+     * load all sides
+     * @return array array of all sides
+     */
     public static function LoadSides(){
-        $settings = Sides::GetInstance();
-        return $settings->LoadAll();
+        $sides = Sides::GetInstance();
+        return $sides->LoadAll();
     }
+    /**
+     * loads side by id
+     * @param int $id side_id
+     * @return array|null the data array for the side or null if it doesn't exist
+     */
     public static function LoadSideId($id){
-        $settings = Sides::GetInstance();
-        return $settings->LoadById($id);
+        $sides = Sides::GetInstance();
+        return $sides->LoadById($id);
     }
+    /**
+     * saves a side
+     * @param array $data the data array
+     * @return array save report
+     * @todo double check the weird extra saving?
+     */
     public static function SaveSide($data){
-        $recipes = Sides::GetInstance();
-        $side = $recipes->LoadById($data['id']);
+        $sides = Sides::GetInstance();
+        $side = $sides->LoadById($data['id']);
         //print_r($data);
         //print_r($side);
         if(isset($data['id']) && !is_null($side)){
-            return $recipes->Save($data,['id'=>$data['id']]);
+            return $sides->Save($data,['id'=>$data['id']]);
         }
+        $report = [];
         if(isset($data['id']) && (int)$data['id'] == 0){
-            $recipes->Save($data);
-            $recipes->Save($data,['name'=>$data['name']]);
+            $report['save1'] = $sides->Save($data);
+            $report['save2'] = $sides->Save($data,['name'=>$data['name']]);
         }
-        return $recipes->Save($data);
+        $report['save3'] =  $sides->Save($data);
+        return $report;
     }
 
     public $table_name = "Sides";
