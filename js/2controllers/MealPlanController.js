@@ -12,6 +12,8 @@ class MealPlanController extends Controller {
         super(new MealPlanView(), debug);
         this.popup = new MealSelectView();
         this.popup.controller = this;
+        this.details = new MealRecipeView();
+        this.details.controller = this;
     }
     /**
      * build the views and start the refresh for them
@@ -20,6 +22,7 @@ class MealPlanController extends Controller {
         if(this.debug) console.log("MealPlanController::Ready");
         this.view.build();
         this.popup.build();
+        this.details.build();
         //this.interval = setTimeout(this.refresh.bind(this),this.view.refresh_rate*View.refresh_ratio);
         //this.addButtonEvents();
         this.refresh();
@@ -154,6 +157,7 @@ class MealPlanController extends Controller {
     refresh(){
         clearTimeout(this.interval);
         this.view.display();
+        this.details.refresh();
         this.interval = setTimeout(this.refresh.bind(this),this.view.refresh_rate*View.refresh_ratio);
         View.refresh_ratio += 0.01;
     }

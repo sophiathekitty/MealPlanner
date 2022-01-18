@@ -47,23 +47,21 @@ class SyncMealPlanners {
 
     private $hub = null;
     /**
-     * i think i can get rid of this?
+     * because i can't use server request passthrough for things with params
      */
-    /*
     private function GetHubUrl(){
         if(is_null($this->hub)) $this->hub = GetHubUrl();
         return "http://".$this->hub."/api/meal/";
     }
-    */
     /**
      * pull recipes from hub
      */
     public function PullRecipesFromHub(){
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/recipes";
         if(HubType() == "old_hub"){
-            $url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?verbose=1";
+            //$url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?verbose=1";
+            $url = $this->GetHubUrl()."recipe?verbose=1";
         }
-        //$url = $this->GetHubUrl()."recipe?verbose=1";
         //echo "$url\n";
         $info = file_get_contents($url);
         $data = json_decode($info,true);
@@ -82,23 +80,29 @@ class SyncMealPlanners {
      * pull sides from hub
      */
     public function PullSidesFromHub(){
-        //$url = $this->GetHubUrl()."recipe?sides=true&verbose=1";
+        
         //echo "$url\n";
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/sides";
         if(HubType() == "old_hub"){
-            $url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?sides=true&verbose=1";
+            //$url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?sides=true&verbose=1";
+            $url = $this->GetHubUrl()."recipe?sides=true&verbose=1";
         }
+        echo "\n\n\nPull Sides From Hub: $url\n\n";
         $info = file_get_contents($url);
         $data = json_decode($info,true);
-        //print_r($data);
+        print_r($data);
         foreach($data['sides'] as $side){
-            Sides::SaveSide($side);
+            echo "---------\n\n";
+            $save = Sides::SaveSide($side);
+            print_r($save);
             echo clsDB::$db_g->get_err();
             foreach($side['ingredients'] as $ingredient){
                 $ingredient['side_id'] = $side['id'];
-                MealSideIngredient::SaveItem($ingredient);
+                $save = MealSideIngredient::SaveItem($ingredient);
+                print_r($save);
                 echo clsDB::$db_g->get_err();
             }
+            echo "\n\n===========\n\n";
         }
     }
     /**
@@ -121,7 +125,7 @@ class SyncMealPlanners {
                 echo clsDB::$db_g->get_err();    
             } else {
                 foreach($ingredients as $ingredient){
-                    print_r($ingredient);
+                    //print_r($ingredient);
                     MealIngredient::SaveItem($ingredient);
                     echo clsDB::$db_g->get_err();    
                 }    

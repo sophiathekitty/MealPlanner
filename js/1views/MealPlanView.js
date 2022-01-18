@@ -68,7 +68,8 @@ class MealPlanView extends View {
         if(this.template){
             this.template.getData(html=>{
                 $(html).appendTo("main");
-                $("<a href=\"/extensions/MealPlanner/\">meals</a>").appendTo("nav.extensions");
+                $("<a href=\"#meal\" section=\"meal\">dinner</a>").appendTo("nav.sections");
+                $("<a href=\"/extensions/MealPlanner/\" section=\"meal\">meals</a>").appendTo("nav.extensions");
                 $("main").addClass("MealPlanner");
                 this.display();
                 this.controller.addButtonEvents();

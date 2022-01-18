@@ -3,31 +3,31 @@
  * linking table for side ingredients holds the amount value
  */
 class MealSideIngredient extends clsModel {
-    private static $settings = null;
+    private static $me = null;
     /**
      * @return MealSideIngredient|clsModel
      */
     private static function GetInstance(){
-        if(is_null(MealSideIngredient::$settings)){
-            MealSideIngredient::$settings = new MealSideIngredient();
+        if(is_null(MealSideIngredient::$me)){
+            MealSideIngredient::$me = new MealSideIngredient();
         }
-        return MealSideIngredient::$settings;
+        return MealSideIngredient::$me;
     }
     /**
      * loads all side ingredients links
      * @return array the link table dumped out for some reason?
      */
     public static function LoadItems(){
-        $settings = MealSideIngredient::GetInstance();
-        return $settings->LoadAll();
+        $me = MealSideIngredient::GetInstance();
+        return $me->LoadAll();
     }
     /**
      * loads a side ingredient link by it's id
      * @param int $id the id of the side ingredient link
      */
     public static function LoadItemId($id){
-        $settings = MealSideIngredient::GetInstance();
-        return $settings->LoadById($id);
+        $me = MealSideIngredient::GetInstance();
+        return $me->LoadById($id);
     }
     /**
      * save a side ingredient link
@@ -47,10 +47,18 @@ class MealSideIngredient extends clsModel {
      * @param int $side_id the side id
      * @return array list of ingredients for side
      */
-    public static function LoadRecipeIngredients($side_id){
+    public static function LoadSideIngredients($side_id){
         $me = MealSideIngredient::GetInstance();
-        return $me->JoinFieldsWhere(new MealIngredient(),["id","unit","amount","ingredient_id","ingredient_type"],["name","type"],"ingredient_id","id",null,['side_id'=>$side_id]);
-        //return $me->JoinWhere(new MealIngredient(),"ingredient_id","id",null,['recipe_id'=>$recipe_id]);
+        //echo $me->table_name."\n";
+        return $me->JoinFieldsWhere(
+            new MealIngredient(), // @param clsModel $model — instance of the model to be joined with this one
+            ["id","unit","amount","ingredient_id","ingredient_type"], // @param array $fields list of fields to select from the model running this function
+            ["name","type"], // @param array $model_fields list of fields to select from the model passed to this function
+            "ingredient_id", // @param string $on field to join the tables on my_table.$on = model_table.$model_on
+            "id", // @param string $model_on field to join the tables on my_table.$on = model_table.$model_on
+            null, // @param array $model_where where array for fields in model being passed to this function
+            ['side_id'=>$side_id] // @param array $where where array for fields in the model the function is being called on
+        );
     }
 
 

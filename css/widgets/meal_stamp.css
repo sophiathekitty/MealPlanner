@@ -20,16 +20,16 @@
     text-align: center;
 }
 
-.meal_stamp [var="thaw_time"]::before,
-.meal_stamp [var="thawed"]::before{
+[var="thaw_time"]::before,
+[var="thawed"]::before{
     content: 'thaw:';
 }
-.meal_stamp [var="prep_time"]::before,
-.meal_stamp [var="prepped"]::before{
+[var="prep_time"]::before,
+[var="prepped"]::before{
     content: 'prep:';
 }
-.meal_stamp [var="cook_time"]::before,
-.meal_stamp [var="cooked"]::before{
+[var="cook_time"]::before,
+[var="cooked"]::before{
     content: 'cook:';
 }
 .meal_stamp .times span::before,

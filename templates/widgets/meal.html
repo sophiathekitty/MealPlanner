@@ -1,4 +1,6 @@
-<section class="meal_details" model="meal_plan" day="" step="thaw">
+<section class="meal_details" model="meal_plan" day="">
+    <!-- Chef -->
+    <div class="chef" var="chef_name" user_id="" icon="pink"></div>
     <!-- Recipe -->
     <div class="recipe" var="recipe">
         <h1 var="recipe_name"></h1>
@@ -16,19 +18,17 @@
         </div>
         <div class="tasks">
             <a href="#thaw" task="thaw">thaw</a>
-            <a href="#thaw" task="prep">prep</a>
-            <a href="#thaw" task="cook">cook</a>
-            <a href="#thaw" task="change">change</a>    
+            <a href="#prep" task="prep">prep</a>
+            <a href="#cook" task="cook">cook</a>
+            <a href="#change" task="change">change</a>    
         </div>
     </div>
     <!-- Side -->
-    <div class="side" var="side">
+    <div class="recipe" var="side">
         <h2 var="side_name"></h2>
         <ul collection="ingredients"></ul>
         <div var="instructions"></div>
         <div class="times">
-            <span var="thaw_time" val="" unit="hours"></span>
-            <span var="thawed" val="" unit="pm"></span>
             <span var="prep_time" val="" unit="minutes"></span>
             <span var="prepped" val="" unit="pm"></span>
             <span var="cook_time" val="" unit="minutes"></span>
@@ -37,12 +37,8 @@
             <span var="timer" val=""></span>
         </div>
         <div class="tasks">
-            <a href="#thaw" task="thaw">thaw</a>
-            <a href="#thaw" task="prep">prep</a>
-            <a href="#thaw" task="cook">cook</a>
-            <a href="#thaw" task="change">change</a>    
+            <a href="#prep" task="prep" side="true">prep</a>
+            <a href="#cook" task="cook" side="true">cook</a>
         </div>    
     </div>
-    <!-- Chef -->
-    <div class="chef" var="chef_name" user_id="" icon="pink"></div>
 </section>

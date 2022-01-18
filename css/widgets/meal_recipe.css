@@ -1,0 +1,79 @@
+section.meal_details {
+    grid-area: main;
+    /*
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1em auto auto auto;
+    grid-gap: 0.25em 0.25em;
+    grid-template-areas: 
+        "chef"
+        "recipe"
+        "side"
+        "extra";
+        */
+}
+.app [view="meal"] section#rooms_list,
+.app [view="meal"] [day="today"],
+.app section.meal_details {
+    display: none;
+}
+.app [view="meal"] section.meal_details{
+    display: block;
+}
+section.meal_details .chef {
+    grid-area: chef;
+}
+section.meal_details [var="recipe"] {
+    grid-area: recipe;
+}
+section.meal_details [var="side"] {
+    grid-area: side;
+}
+section.meal_details .recipe {
+    display: grid;
+    grid-template-columns: 15em auto 20em 15em;
+    grid-gap: 0.25em 0.25em;
+    grid-template-areas: 
+        "header header header header"
+        "line2 line2 times tasks"
+        "ingredients instructions instructions instructions";
+}
+section.meal_details .recipe h1,
+section.meal_details .recipe h2 {
+    grid-area: header;
+    margin: 0em;
+}
+section.meal_details .recipe ul {
+    grid-area: ingredients;
+    margin: 0em;
+    padding: 0em;
+}
+section.meal_details .recipe ul li {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+section.meal_details .recipe ul li span::after {
+    font-size: 0.75em;
+    margin-left: 0.5em;
+}
+section.meal_details .recipe .times {
+    grid-area: times;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 1.5em;
+}
+section.meal_details .recipe .times span::before,
+section.meal_details .recipe .times span::after {
+    font-size: 0.5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+section.meal_details .recipe .tasks {
+    grid-area: tasks;
+    text-align: right;
+}
+section.meal_details .recipe [var="instructions"] {
+    grid-area: instructions;
+    padding: 0.5em;
+}

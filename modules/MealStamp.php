@@ -55,7 +55,7 @@ class MealStamp {
      */
     public static function Side($side_id){
         $side = Sides::LoadSideId($side_id);
-        $side['ingredients'] = MealSideIngredient::LoadRecipeIngredients($side_id);
+        $side['ingredients'] = MealSideIngredient::LoadSideIngredients($side_id);
         return $side;
     }
 }
