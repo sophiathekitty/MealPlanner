@@ -72,6 +72,8 @@ class MealTasks {
                 if($task == "thawed") $task = "thaw";
                 if($task == "prepped") $task = "prep";
                 if($task == "cooked") $task = "cook";
+                if($task == "side_prepped") $task = "side_prep";
+                if($task == "side_cooked") $task = "side_cook";
                 $url = "http://".GetHubUrl()."/api/meal/?meal_date=$date&task=$task";
             } else {
                 $url = "http://".GetHubUrl()."/extensions/MealPlanner/api/tasks?date=$date&task=$task";
