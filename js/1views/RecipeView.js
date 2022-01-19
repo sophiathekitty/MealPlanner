@@ -16,7 +16,8 @@ class MealRecipeView extends View {
                     this.model.getData(json=>{
                         this.index = 0;
                         this.meal = json.meals[this.index];
-                        this.display();                        
+                        this.display();
+                        this.controller.clickRecipeTask();
                     });
                 }
             });

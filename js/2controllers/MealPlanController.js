@@ -53,7 +53,7 @@ class MealPlanController extends Controller {
     }
     clickRecipeTask(){
         if(this.debug) console.log("MealPlanController::ClickTask");
-        this.click(".meal_details .recipe a",e=>{
+        this.click(".meal_details [var=recipe] a",e=>{
             // click filter options
             e.preventDefault();
             if(this.debug) console.log("MealPlanController::ClickRecipeTask::RecipeClicked",$(e.currentTarget).attr("task"));
@@ -62,7 +62,7 @@ class MealPlanController extends Controller {
             var date = $(e.currentTarget).attr("date");
             this.completeRecipeTask(date,task);
         });
-        this.click(".meal_details .side a",e=>{
+        this.click(".meal_details [var=side] a",e=>{
             // click filter options
             e.preventDefault();
             if(this.debug) console.log("MealPlanController::ClickRecipeTask::SideClicked",$(e.currentTarget).attr("task"));
