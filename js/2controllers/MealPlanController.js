@@ -73,9 +73,9 @@ class MealPlanController extends Controller {
         });
     }
     /**
-     * 
-     * @param {string} date 
-     * @param {string} task 
+     * handle completing a recipe task
+     * @param {string} date the date of the meal
+     * @param {string} task the name of the task
      */
     completeRecipeTask(date,task){
         if(task == "change"){
