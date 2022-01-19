@@ -114,6 +114,11 @@ class MealPlanController extends Controller {
         }
 
     }
+    /**
+     * 
+     * @param {string} date 
+     * @param {string} task 
+     */
     completeSideTask(date,task){
         // submit task complete
         if(task == "prep") task = "side_prepped";
