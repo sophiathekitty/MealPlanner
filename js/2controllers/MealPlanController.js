@@ -172,6 +172,7 @@ class MealPlanController extends Controller {
                             if(this.debug) console.log("MealPlanController::clickPopupButtons::Save--push complete",json);
                             //this.view.model.pullData(json=>{
                                 this.view.display();
+                                this.details.refresh();
                             //});
                         },err=>{
                             if(this.debug) console.error("MealPlanController::clickPopupButtons::Save--push error",err);
