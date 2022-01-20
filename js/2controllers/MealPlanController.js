@@ -95,29 +95,29 @@ class MealPlanController extends Controller {
                 if(task == "thawed"){
                     $("[model=meal_plan][date="+date+"]").attr("step","prep");
                     $("[model=meal_plan][date="+date+"] [var=thawed]").html(now);
-                    $("[date="+date+"] [var=recipe]").attr("step","prep");
-                    $("[date="+date+"] [var=recipe] [var=thawed]").html(now);
+                    $("section[date="+date+"] [var=recipe]").attr("step","prep");
+                    $("section[date="+date+"] [var=recipe] [var=thawed]").html(now);
                 } 
                 if(task == "prepped"){
                     $("[model=meal_plan][date="+date+"]").attr("step","cook");
                     $("[model=meal_plan][date="+date+"] [var=prepped]").html(now);
-                    $("[date="+date+"] [var=recipe]").attr("step","cook");
-                    $("[date="+date+"] [var=recipe] [var=prepped]").html(now);
+                    $("section[date="+date+"] [var=recipe]").attr("step","cook");
+                    $("section[date="+date+"] [var=recipe] [var=prepped]").html(now);
                 } 
                 if(task == "cooked"){
                     $("[model=meal_plan][date="+date+"]").attr("step","cooking");
                     $("[model=meal_plan][date="+date+"] [var=cooked]").html(now);
-                    $("[date="+date+"] [var=recipe]").attr("step","cooking");
-                    $("[date="+date+"] [var=recipe] [var=cooked]").html(now);
+                    $("section[date="+date+"] [var=recipe]").attr("step","cooking");
+                    $("section[date="+date+"] [var=recipe] [var=cooked]").html(now);
                 } 
             });
         }
 
     }
     /**
-     * 
-     * @param {string} date 
-     * @param {string} task 
+     * complete a side task
+     * @param {string} date date of the meal
+     * @param {string} task task completed
      */
     completeSideTask(date,task){
         // submit task complete

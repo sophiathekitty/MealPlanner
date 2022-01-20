@@ -66,6 +66,7 @@ class MealTasks {
         $meal[$task] = date("Y-m-d H:i:s");
         $data['save'] = MealPlan::SaveMeal($meal);
         $data['meal'] = $meal;
+        $data['meal_reload'] = MealPlan::GetMeal($date);
         // if not hub report back to hub
         if(!IsHub()){
             if(HubType() == "old_hub"){
