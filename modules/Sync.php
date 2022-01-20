@@ -148,10 +148,10 @@ class SyncMealPlanners {
         $tomorrow = $this->CleanMealPlan($data['meal_plan']['tomorrow']);
         $tomorrow2 = $this->CleanMealPlan($data['meal_plan']['tomorrow2']);
         $tomorrow3 = $this->CleanMealPlan($data['meal_plan']['tomorrow3']);
-        MealPlan::SaveMeal($today);
-        MealPlan::SaveMeal($tomorrow);
-        MealPlan::SaveMeal($tomorrow2);
-        MealPlan::SaveMeal($tomorrow3);
+        MealPlan::SaveMeal($today,true);
+        MealPlan::SaveMeal($tomorrow,true);
+        MealPlan::SaveMeal($tomorrow2,true);
+        MealPlan::SaveMeal($tomorrow3,true);
         echo clsDB::$db_g->get_err()."\n";
         foreach($data['meal_plan']['schedule'] as $day){
             MealSchedule::SaveDay($day);

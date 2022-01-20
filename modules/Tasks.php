@@ -66,12 +66,15 @@ class MealTasks {
         $meal[$task] = date("Y-m-d H:i:s");
         $data['save'] = MealPlan::SaveMeal($meal);
         $data['meal'] = $meal;
+        $data['meal_reload'] = MealPlan::GetMeal($date);
         // if not hub report back to hub
         if(!IsHub()){
             if(HubType() == "old_hub"){
                 if($task == "thawed") $task = "thaw";
                 if($task == "prepped") $task = "prep";
                 if($task == "cooked") $task = "cook";
+                if($task == "side_prepped") $task = "side_prep";
+                if($task == "side_cooked") $task = "side_cook";
                 $url = "http://".GetHubUrl()."/api/meal/?meal_date=$date&task=$task";
             } else {
                 $url = "http://".GetHubUrl()."/extensions/MealPlanner/api/tasks?date=$date&task=$task";

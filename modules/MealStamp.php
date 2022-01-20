@@ -38,6 +38,18 @@ class MealStamp {
         $tomorrow['thaw_at'] = date("Y-m-d H:i:s",strtotime($tomorrow['prep_at']) - HoursToSeconds($tomorrow['recipe']['thaw_time']));
         return $tomorrow;
     }
+    public static function Stamp($meal){
+        if(isset($meal['recipe_id'])) $meal['recipe'] = MealStamp::Recipe($meal['recipe_id']); //Recipes::LoadRecipeId($meal['recipe_id']);
+        if(isset($meal['recipe'])) $meal['chef'] = Chef::LoadUserId($meal['recipe']['user_id']);
+        if(isset($meal['side_id'])) $meal['side'] = MealStamp::Side($meal['side_id']); //Sides::LoadSideId($meal['side_id']);
+        // calculate when to start cooking and prepping and thawing....
+        $dinner_hour = Settings::LoadSettingsVar("dinner_hour",8);
+        $meal['dinner_at'] = date("Y-m-d $dinner_hour:00:00",strtotime($meal['date']));
+        $meal['cook_at'] = date("Y-m-d H:i:s",strtotime($meal['dinner_at']) - MinutesToSeconds($meal['recipe']['cook_time']));
+        $meal['prep_at'] = date("Y-m-d H:i:s",strtotime($meal['cook_at']) - MinutesToSeconds($meal['recipe']['prep_time']));
+        $meal['thaw_at'] = date("Y-m-d H:i:s",strtotime($meal['prep_at']) - HoursToSeconds($meal['recipe']['thaw_time']));
+        return $meal;
+    }
     /**
      * loads a recipe and adds ingredients list
      * @param int $recipe_id the id of the recipe

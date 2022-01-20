@@ -48,55 +48,92 @@ class MealPlanController extends Controller {
             //$("section#weather").attr("show",$(e.currentTarget).attr("filter"));
             var task = $(e.currentTarget).attr("task");
             var date = $(e.currentTarget).attr("date");
-            if(task == "change"){
-                // show the meal select popup
-                this.view.model.getItem(date,json=>{
-                    if(this.debug) console.log("MealPlanController::ClickTask::Clicked--change--",json);
-                    this.popup.display(json);
-                });
-            } else {
-                // submit task complete
-                if(task == "thaw") task = "thawed";
-                if(task == "prep") task = "prepped";
-                if(task == "cook") task = "cooked";
-                var myData = {"date":date,"task":task};
-                // do an ajax request
-                Model.push_requests_started++;
-                $.ajax({  
-                    data: myData,
-                    type: 'GET',
-                    url: '/extensions/MealPlanner/api/tasks/',
-                    success: data=>{
-                        if(this.debug) console.log("MealPlanController::ClickTask::Clicked: push success",task,date,data);
-                        var now = this.view.dateToHourMin(new Date());
-                        if(task == "thawed"){
-                            $("[model=meal_plan][date="+date+"]").attr("step","prep");
-                            $("[model=meal_plan][date="+date+"] [var=thawed]").html(now);
-                        } 
-                        if(task == "prepped"){
-                            $("[model=meal_plan][date="+date+"]").attr("step","cook");
-                            $("[model=meal_plan][date="+date+"] [var=prepped]").html(now);
-                        } 
-                        if(task == "cooked"){
-                            $("[model=meal_plan][date="+date+"]").attr("step","cooking");
-                            $("[model=meal_plan][date="+date+"] [var=cooked]").html(now);
-                        } 
-                        Model.server_errors--;
-                        Model.push_requests_completed++;
-                        if(Model.server_errors < 0) Model.server_errors = 0;
-                    },
-                    error: e=>{
-                        Model.push_requests_completed++;
-                        Model.server_errors++;
-                        if(this.debug) console.error(e);    
-                    },
-                    fail: res=>{
-                        Model.push_requests_completed++;
-                        Model.server_errors++;
-                        if(this.debug) console.error(res);
-                    }
-                });    
-            }
+            this.completeRecipeTask(date,task);
+        });
+    }
+    clickRecipeTask(){
+        if(this.debug) console.log("MealPlanController::ClickTask");
+        this.click(".meal_details [var=recipe] a",e=>{
+            // click filter options
+            e.preventDefault();
+            if(this.debug) console.log("MealPlanController::ClickRecipeTask::RecipeClicked",$(e.currentTarget).attr("task"));
+            //$("section#weather").attr("show",$(e.currentTarget).attr("filter"));
+            var task = $(e.currentTarget).attr("task");
+            var date = $(e.currentTarget).attr("date");
+            this.completeRecipeTask(date,task);
+        });
+        this.click(".meal_details [var=side] a",e=>{
+            // click filter options
+            e.preventDefault();
+            if(this.debug) console.log("MealPlanController::ClickRecipeTask::SideClicked",$(e.currentTarget).attr("task"));
+            //$("section#weather").attr("show",$(e.currentTarget).attr("filter"));
+            var task = $(e.currentTarget).attr("task");
+            var date = $(e.currentTarget).attr("date");
+            this.completeSideTask(date,task);
+        });
+    }
+    /**
+     * handle completing a recipe task
+     * @param {string} date the date of the meal
+     * @param {string} task the name of the task
+     */
+    completeRecipeTask(date,task){
+        if(task == "change"){
+            // show the meal select popup
+            this.view.model.getItem(date,json=>{
+                if(this.debug) console.log("MealPlanController::completeRecipeTask--change--",json);
+                this.popup.display(json);
+            });
+        } else {
+            // submit task complete
+            if(task == "thaw") task = "thawed";
+            if(task == "prep") task = "prepped";
+            if(task == "cook") task = "cooked";
+            this.view.model.completeTask(date,task,res=>{
+                if(this.debug) console.log("MealPlanController::completeRecipeTask: save done",task,date,res);
+                var now = this.view.dateToHourMin(new Date());
+                if(task == "thawed"){
+                    $("[model=meal_plan][date="+date+"]").attr("step","prep");
+                    $("[model=meal_plan][date="+date+"] [var=thawed]").html(now);
+                    $("section[date="+date+"] [var=recipe]").attr("step","prep");
+                    $("section[date="+date+"] [var=recipe] [var=thawed]").html(now);
+                } 
+                if(task == "prepped"){
+                    $("[model=meal_plan][date="+date+"]").attr("step","cook");
+                    $("[model=meal_plan][date="+date+"] [var=prepped]").html(now);
+                    $("section[date="+date+"] [var=recipe]").attr("step","cook");
+                    $("section[date="+date+"] [var=recipe] [var=prepped]").html(now);
+                } 
+                if(task == "cooked"){
+                    $("[model=meal_plan][date="+date+"]").attr("step","cooking");
+                    $("[model=meal_plan][date="+date+"] [var=cooked]").html(now);
+                    $("section[date="+date+"] [var=recipe]").attr("step","cooking");
+                    $("section[date="+date+"] [var=recipe] [var=cooked]").html(now);
+                } 
+            });
+        }
+
+    }
+    /**
+     * complete a side task
+     * @param {string} date date of the meal
+     * @param {string} task task completed
+     */
+    completeSideTask(date,task){
+        // submit task complete
+        if(task == "prep") task = "side_prepped";
+        if(task == "cook") task = "side_cooked";
+        this.view.model.completeTask(date,task,res=>{
+            if(this.debug) console.log("MealPlanController::completeRecipeTask: save done",task,date,res);
+            var now = this.view.dateToHourMin(new Date());
+            if(task == "side_prepped"){
+                $(".meal_details [var=side]").attr("step","cook");
+                $(".meal_details [var=side] [var=prepped]").html(now);
+            } 
+            if(task == "side_cooked"){
+                $(".meal_details [var=side]").attr("step","cooking");
+                $(".meal_details [var=side] [var=cooked]").html(now);
+            } 
         });
     }
     /**
@@ -133,6 +170,10 @@ class MealPlanController extends Controller {
                         this.view.model.setItem(meal);
                         this.view.model.pushData(json=>{
                             if(this.debug) console.log("MealPlanController::clickPopupButtons::Save--push complete",json);
+                            //this.view.model.pullData(json=>{
+                                this.view.display();
+                                this.details.refresh();
+                            //});
                         },err=>{
                             if(this.debug) console.error("MealPlanController::clickPopupButtons::Save--push error",err);
                         },err=>{

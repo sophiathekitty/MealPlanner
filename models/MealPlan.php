@@ -55,8 +55,9 @@ class MealPlan extends clsModel {
      * @param array $meal the meal data array
      * @return array save report
      */
-    public static function SaveMeal($meal){
+    public static function SaveMeal($meal, $remote = false){
         $meals = MealPlan::GetInstance();
+        $meal = $meals->CleanData($meal);
         if(is_null($meals->LoadWhere(['date'=>$meal['date']]))){
             return $meals->Save($meal);
         }

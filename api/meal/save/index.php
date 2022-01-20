@@ -2,7 +2,9 @@
 require_once("../../../includes/main.php");
 $data = [];
 if(isset($_GET['date'])){
+    $data['get'] = $_GET;
     $data['save'] = MealPlan::SaveMeal($_GET);
+    $data['meal_reloaded'] = MealStamp::Stamp(MealPlan::GetMeal($_GET['date']));
     if(!IsHub()){
         if(HubType() == "old_hub"){
             $date = $_GET['date'];

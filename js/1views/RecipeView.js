@@ -16,7 +16,8 @@ class MealRecipeView extends View {
                     this.model.getData(json=>{
                         this.index = 0;
                         this.meal = json.meals[this.index];
-                        this.display();                        
+                        this.display();
+                        this.controller.clickRecipeTask();
                     });
                 }
             });
@@ -168,16 +169,22 @@ class MealRecipeView extends View {
      * @param {string} type recipe or side
      */
     displayRecipe(html,recipe,type = "recipe"){
+        if(this.debug) console.log("RecipeView::DisplayRecipe",recipe);
+        if(type == "recipe" && recipe.recipe) recipe = recipe.recipe;
+        if(type == "side" && recipe.side) recipe = recipe.side;
         $("[var="+type+"] [var="+type+"_name]").html(recipe.name);
         $("[var="+type+"] [var=instructions]").html(recipe.instructions);
-        if(this.debug) console.log("RecipeView::DisplayRecipe",recipe.ingredients);
         $("[var="+type+"] [collection=ingredients]").html("");
-        recipe.ingredients.forEach((ingredient,index)=>{
-            $(html).appendTo("[var="+type+"] [collection=ingredients]").attr("index",index);
-            $("[var="+type+"] [collection=ingredients] [index="+index+"] [var=ingredient_name]").html(ingredient.name);
-            $("[var="+type+"] [collection=ingredients] [index="+index+"] [var=quantity]").html(ingredient.amount);
-            $("[var="+type+"] [collection=ingredients] [index="+index+"] [var=quantity]").attr("unit",ingredient.unit);
-        });
+        if(recipe.ingredients){
+            recipe.ingredients.forEach((ingredient,index)=>{
+                $(html).appendTo("[var="+type+"] [collection=ingredients]").attr("index",index);
+                $("[var="+type+"] [collection=ingredients] [index="+index+"] [var=ingredient_name]").html(ingredient.name);
+                $("[var="+type+"] [collection=ingredients] [index="+index+"] [var=quantity]").html(ingredient.amount);
+                $("[var="+type+"] [collection=ingredients] [index="+index+"] [var=quantity]").attr("unit",ingredient.unit);
+            });    
+        } else {
+            if(this.debug) console.error("RecipeView::DisplayRecipe-missing ingredients array?",type,recipe.ingredients,recipe);
+        }
         $("section.meal_details [var="+type+"] [var=thaw_time]").html(recipe.thaw_time);
         $("section.meal_details [var="+type+"] [var=prep_time]").html(recipe.prep_time);
         $("section.meal_details [var="+type+"] [var=cook_time]").html(recipe.cook_time);
