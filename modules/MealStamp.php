@@ -18,6 +18,10 @@ class MealStamp {
         $today['cook_at'] = date("Y-m-d H:i:s",strtotime($today['dinner_at']) - MinutesToSeconds($today['recipe']['cook_time']));
         $today['prep_at'] = date("Y-m-d H:i:s",strtotime($today['cook_at']) - MinutesToSeconds($today['recipe']['prep_time']));
         $today['thaw_at'] = date("Y-m-d H:i:s",strtotime($today['prep_at']) - HoursToSeconds($today['recipe']['thaw_time']));
+        if(isset($today['side'])){
+            $today['side_cook_at'] = date("Y-m-d H:i:s",strtotime($today['dinner_at']) - MinutesToSeconds($today['side']['cook_time']));
+            $today['side_prep_at'] = date("Y-m-d H:i:s",strtotime($today['side_cook_at']) - MinutesToSeconds($today['side']['prep_time']));    
+        }
         return $today;
     }
     /**
@@ -36,6 +40,10 @@ class MealStamp {
         $tomorrow['cook_at'] = date("Y-m-d H:i:s",strtotime($tomorrow['dinner_at']) - MinutesToSeconds($tomorrow['recipe']['cook_time']));
         $tomorrow['prep_at'] = date("Y-m-d H:i:s",strtotime($tomorrow['cook_at']) - MinutesToSeconds($tomorrow['recipe']['prep_time']));
         $tomorrow['thaw_at'] = date("Y-m-d H:i:s",strtotime($tomorrow['prep_at']) - HoursToSeconds($tomorrow['recipe']['thaw_time']));
+        if(isset($tomorrow['side'])){
+            $tomorrow['side_cook_at'] = date("Y-m-d H:i:s",strtotime($tomorrow['dinner_at']) - MinutesToSeconds($tomorrow['side']['cook_time']));
+            $tomorrow['side_prep_at'] = date("Y-m-d H:i:s",strtotime($tomorrow['side_cook_at']) - MinutesToSeconds($tomorrow['side']['prep_time']));    
+        }
         return $tomorrow;
     }
     public static function Stamp($meal){
@@ -48,6 +56,10 @@ class MealStamp {
         $meal['cook_at'] = date("Y-m-d H:i:s",strtotime($meal['dinner_at']) - MinutesToSeconds($meal['recipe']['cook_time']));
         $meal['prep_at'] = date("Y-m-d H:i:s",strtotime($meal['cook_at']) - MinutesToSeconds($meal['recipe']['prep_time']));
         $meal['thaw_at'] = date("Y-m-d H:i:s",strtotime($meal['prep_at']) - HoursToSeconds($meal['recipe']['thaw_time']));
+        if(isset($meal['side'])){
+            $meal['side_cook_at'] = date("Y-m-d H:i:s",strtotime($meal['dinner_at']) - MinutesToSeconds($meal['side']['cook_time']));
+            $meal['side_prep_at'] = date("Y-m-d H:i:s",strtotime($meal['side_cook_at']) - MinutesToSeconds($meal['side']['prep_time']));
+        }
         return $meal;
     }
     /**

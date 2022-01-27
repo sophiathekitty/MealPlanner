@@ -1,0 +1,3 @@
+header .tasks .task[app="MealPlanner"]{
+    background-image: url(/extensions/MealPlanner/images/favicon/favicon-32x32.png);
+}
