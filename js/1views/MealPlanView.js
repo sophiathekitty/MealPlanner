@@ -192,6 +192,7 @@ class MealPlanView extends View {
             am = "pm";
             h -= 12;
         }
+        if(h == 0) h = 12;
         if(m < 10) m = "0"+m;
         return h+":"+m;
     }
