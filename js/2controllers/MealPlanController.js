@@ -33,8 +33,25 @@ class MealPlanController extends Controller {
     addButtonEvents(){
         if(this.debug) console.log("MealPlanController::AddButtonEvents");
         this.clickTask();
+        this.clickRecipeName();
         this.recipeChanged();
         //this.clickPopupButtons();
+    }
+    /**
+     * setup recipe name click handler
+     */
+    clickRecipeName(){
+        if(this.debug) console.log("MealPlanController::ClickRecipeName");
+        this.click("[collection=meal_plan]","[model=meal_plan] [var=recipe_name]",e=>{
+            // click filter options
+            e.preventDefault();
+            var date = $(e.currentTarget).parent().attr("date");
+            var index = $(e.currentTarget).parent().attr("index");
+            if(this.debug) console.log("MealPlanController::ClickRecipeName::Clicked",index,date);
+            this.view.model.getItem(date,meal=>{
+                this.details.displaySelectedMeal(meal,index);
+            });
+        });
     }
     /**
      * setup task click handler
