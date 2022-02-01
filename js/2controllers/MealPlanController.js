@@ -50,6 +50,17 @@ class MealPlanController extends Controller {
             if(this.debug) console.log("MealPlanController::ClickRecipeName::Clicked",index,date);
             this.view.model.getItem(date,meal=>{
                 this.details.displaySelectedMeal(meal,index);
+                $("[collection=meal_plan]").attr("show",index);
+                $("main").addClass("show_details");
+            });
+        });
+        this.click("nav.sections","a",e=>{
+            if(this.debug) console.log("AppController::nav.sections a::Click",$(e.currentTarget).attr("section"));
+            e.preventDefault();
+            var date = $(".meal_stamp[day=today]").attr("date");
+            this.view.model.getItem(date,meal=>{
+                this.details.displaySelectedMeal(meal,0);
+                $("[collection=meal_plan]").removeAttr("show");
             });
         });
     }

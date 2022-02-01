@@ -77,3 +77,35 @@ section.meal_details .recipe [var="instructions"] {
     grid-area: instructions;
     padding: 0.5em;
 }
+
+.app [view="meal"] [show] [day="today"]{
+    display: block;
+}
+.app [view="meal"] [show="0"] .meal_stamp[index="0"],
+.app [view="meal"] [show="1"] .meal_stamp[index="1"],
+.app [view="meal"] [show="2"] [index="2"],
+.app [view="meal"] [show="3"] [index="3"],
+.app [view="meal"] [show="4"] [index="4"],
+.app [view="meal"] [show="5"] [index="5"]{
+    display: none !important;
+}
+
+@media( max-width:600px) {
+    .app .show_details[view="meal"] section[collection="meal_plan"] {
+        display: none !important;
+    }
+    .app .show_details[view="meal"] section.meal_details {
+        display: block !important;
+    }
+    section.meal_details .recipe {
+        display: grid;
+        grid-template-columns: auto;
+        grid-gap: 0.25em 0.25em;
+        grid-template-areas: 
+            "header"
+            "times"
+            "tasks"
+            "ingredients"
+            "instructions";
+    }
+}
