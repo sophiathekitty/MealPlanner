@@ -23,7 +23,8 @@ class MealRecipeView extends View {
             });
         }
     }
-    display(meal,index){
+    displaySelectedMeal(meal,index){
+        if(this.debug) console.log("MealRecipeView::Display",meal,index);
         this.meal = meal;
         this.index = index;
         this.display();

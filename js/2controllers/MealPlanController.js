@@ -33,8 +33,36 @@ class MealPlanController extends Controller {
     addButtonEvents(){
         if(this.debug) console.log("MealPlanController::AddButtonEvents");
         this.clickTask();
+        this.clickRecipeName();
         this.recipeChanged();
         //this.clickPopupButtons();
+    }
+    /**
+     * setup recipe name click handler
+     */
+    clickRecipeName(){
+        if(this.debug) console.log("MealPlanController::ClickRecipeName");
+        this.click("[collection=meal_plan]","[model=meal_plan] [var=recipe_name]",e=>{
+            // click filter options
+            e.preventDefault();
+            var date = $(e.currentTarget).parent().attr("date");
+            var index = $(e.currentTarget).parent().attr("index");
+            if(this.debug) console.log("MealPlanController::ClickRecipeName::Clicked",index,date);
+            this.view.model.getItem(date,meal=>{
+                this.details.displaySelectedMeal(meal,index);
+                $("[collection=meal_plan]").attr("show",index);
+                $("main").addClass("show_details");
+            });
+        });
+        this.click("nav.sections","a",e=>{
+            if(this.debug) console.log("AppController::nav.sections a::Click",$(e.currentTarget).attr("section"));
+            e.preventDefault();
+            var date = $(".meal_stamp[day=today]").attr("date");
+            this.view.model.getItem(date,meal=>{
+                this.details.displaySelectedMeal(meal,0);
+                $("[collection=meal_plan]").removeAttr("show");
+            });
+        });
     }
     /**
      * setup task click handler
