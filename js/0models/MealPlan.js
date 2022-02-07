@@ -24,7 +24,9 @@ class MealPlanData extends Collection {
                 Model.server_errors--;
                 Model.push_requests_completed++;
                 if(Model.server_errors < 0) Model.server_errors = 0;
-                if(callback) callback(data);
+                this.pullData(json=>{
+                    if(callback) callback(data);
+                });
             },
             error: e=>{
                 Model.push_requests_completed++;
