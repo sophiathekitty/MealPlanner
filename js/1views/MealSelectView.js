@@ -1,5 +1,5 @@
 class MealSelectView extends View {
-    constructor(debug = true){
+    constructor(debug = false){
         if(debug) console.log("MealSelectView::Constructor");
         super(new RecipesCollection(),new Template("meal_select","/extensions/MealPlanner/templates/widgets/meal_select.html"),null,60000,debug);
         this.sides = new SidesCollection();

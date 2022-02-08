@@ -1,5 +1,5 @@
 class MealRecipeView extends View {
-    constructor(debug = true){
+    constructor(debug = false){
         if(debug) console.log("MealRecipeView::Constructor");
         super(
             new MealPlanData(),

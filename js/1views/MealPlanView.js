@@ -2,7 +2,7 @@
  * view for displaying the forecast
  */
 class MealPlanView extends View {
-    constructor(debug = false){
+    constructor(debug = true){
         if(debug) console.log("MealPlanView::Constructor");
         super(
             new MealPlanData(),
@@ -20,16 +20,58 @@ class MealPlanView extends View {
      * @todo not working
      */
     cookTimer(){
-        if(this.cook_time > 0){
-            var now = new Date();
-            var dif = now.getTime() - this.date.getTime();
-            var time_left = (this.cook_time*1000) - dif;
+        //if(this.debug) console.log("MealPlanView::CookTimer");
+        this.DisplayClockTimer("today");
+        this.DisplayClockTimerDish("today","recipe");
+        this.DisplayClockTimerDish("today","side");
+        this.DisplayClockTimer("tomorrow");
+        this.DisplayClockTimerDish("tomorrow","recipe");
+        this.DisplayClockTimerDish("tomorrow","side");
+        this.DisplayClockTimer("tomorrow2");
+        this.DisplayClockTimerDish("tomorrow2","recipe");
+        this.DisplayClockTimerDish("tomorrow2","side");
+        this.DisplayClockTimer("tomorrow3");
+        this.DisplayClockTimerDish("tomorrow3","recipe");
+        this.DisplayClockTimerDish("tomorrow3","side");
+    }
+    DisplayClockTimer(day){
+        //if(this.debug) console.log("MealPlanView::DisplayCookTimer",day);
+        var cook_timestamp = $("[day="+day+"] [var=cooked]").attr('val');
+        var cook_time = Number($("[day="+day+"] [var=cook_time]").attr("val"));
+        //if(this.debug) console.log("MealPlanView::DisplayCookTimer",day,{"cook_timestamp":cook_timestamp,"cook_time":cook_time});
+        if(cook_timestamp != null && cook_timestamp != undefined && cook_timestamp != ""){
+            var now_date = new Date();
+            var date = new Date(cook_timestamp);
+            var dif = now_date.getTime() - date.getTime();
+            var time_left = (cook_time*60*1000) - dif;
             if(time_left < 0) time_left = 0;
             var time_txt = this.MillisecondsToTime(time_left);
+            $("[day="+day+"]  [var=timer]").attr("val",time_txt);
             if(time_txt == "0:00"){
-                time_txt = "Ready";
+                time_txt = "Ready!";
             }
-            $("[model=meal_plan] [var=timer]").html(time_txt);
+            $("[day="+day+"]  [var=timer]").html(time_txt);
+            //if(this.debug) console.log("MealPlanView::DisplayCookTimer",{"cook_timestamp":cook_timestamp,"cook_time":cook_time,"now_date":now_date,"date":date,"dif":dif,"time_left":time_left,"time_txt":time_txt});
+        }
+    }
+    DisplayClockTimerDish(day,dish){
+        //if(this.debug) console.log("MealPlanView::DisplayCookTimerDish",day,dish);
+        var cook_timestamp = $("[day="+day+"] [var="+dish+"] [var=cooked]").attr('val');
+        var cook_time = Number($("[day="+day+"] [var="+dish+"] [var=cook_time]").attr("val"));
+        //if(this.debug) console.log("MealPlanView::DisplayCookTimerDish",day,dish,{"cook_timestamp":cook_timestamp,"cook_time":cook_time});
+        if(cook_timestamp != null && cook_timestamp != undefined && cook_timestamp != ""){
+            var now_date = new Date();
+            var date = new Date(cook_timestamp);
+            var dif = now_date.getTime() - date.getTime();
+            var time_left = (cook_time*60*1000) - dif;
+            if(time_left < 0) time_left = 0;
+            var time_txt = this.MillisecondsToTime(time_left);
+            $("[day="+day+"] [var="+dish+"] [var=timer]").attr("val",time_txt);
+            if(time_txt == "0:00"){
+                time_txt = "Ready!";
+            }
+            $("[day="+day+"] [var="+dish+"] [var=timer]").html(time_txt);
+            //if(this.debug) console.log("MealPlanView::DisplayCookTimerDish",{"cook_timestamp":cook_timestamp,"cook_time":cook_time,"now_date":now_date,"date":date,"dif":dif,"time_left":time_left,"time_txt":time_txt});
         }
     }
     /**
@@ -82,19 +124,19 @@ class MealPlanView extends View {
      * display the meal plan data. rebuilding the list every time
      */
     display(){
-        if(this.debug) console.log("MealPlanView::Display");
+        //if(this.debug) console.log("MealPlanView::Display");
         if(this.model){
-            if(this.debug) console.log("MealPlanView::Display-has model");
+            //if(this.debug) console.log("MealPlanView::Display-has model");
             this.model.getData(json=>{
-                if(this.debug) console.log("MealPlanView::Display-json",json);
+                //if(this.debug) console.log("MealPlanView::Display-json",json);
                 if(this.item_template){
                     this.item_template.getData(html=>{
-                        if(this.debug) console.log("MealPlanView::Display-item_template",html);
+                        //if(this.debug) console.log("MealPlanView::Display-item_template",html);
                         $("[collection=meal_plan]").html("");
                         json.meals.forEach((item,index)=>{
-                            if(this.debug) console.log("MealPlanView::Display",index,item,item.recipe.name);
+                            //if(this.debug) console.log("MealPlanView::Display",index,item,item.recipe.name);
                             $(html).appendTo("[collection=meal_plan]").attr("index",index);
-                            if(this.debug) console.log($("[collection=meal_plan] [index="+index+"]"),item.recipe.name);
+                            //if(this.debug) console.log($("[collection=meal_plan] [index="+index+"]"),item.recipe.name);
                             $("[collection=meal_plan] [index="+index+"]").attr("day",item.day);
                             $("[collection=meal_plan] [index="+index+"]").attr("date",item.date);
 
@@ -149,7 +191,7 @@ class MealPlanView extends View {
                             $("[collection=meal_plan] [index="+index+"] [var=cook_temp]").html(item.recipe.cook_level);
                             $("[collection=meal_plan] [index="+index+"] [var=cook_temp]").attr("val",item.recipe.cook_level);
                             $("[collection=meal_plan] [index="+index+"] [var=cook_temp]").attr("unit",item.recipe.cook_unit);
-                            if(this.debug) console.log("MealPlanView::Display--chef:",item.chef);
+                            //if(this.debug) console.log("MealPlanView::Display--chef:",item.chef);
                             if(item.chef){
                                 $("[collection=meal_plan] [index="+index+"] [var=chef_name]").html(item.chef.name);
                                 $("[collection=meal_plan] [index="+index+"] [var=chef_name]").attr("val",item.chef.name);
