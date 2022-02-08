@@ -7,7 +7,7 @@
  * - DaytimeInfoView
  */
 class MealPlanController extends Controller {
-    constructor(debug = true){
+    constructor(debug = false){
         if(debug) console.log("MealPlanController::Constructor");
         super(new MealPlanView(), debug);
         this.popup = new MealSelectView();
