@@ -195,8 +195,12 @@ class MealPlanController extends Controller {
                         meal.meal = recipe.name;
                         meal.side = side;
                         if(this.debug) console.log("MealPlanController::clickPopupButtons::Save--update meal",meal);
-                        this.view.model.setItem(meal);
-                        this.view.model.pushData(json=>{
+                        this.view.model.setItem(meal,json=>{
+                            if(this.debug) console.log("MealPlanController::clickPopupButtons::Save--push complete",json);
+                            this.view.display();
+                            this.details.refresh();
+                        });
+                        /*this.view.model.pushData(json=>{
                             if(this.debug) console.log("MealPlanController::clickPopupButtons::Save--push complete",json);
                             //this.view.model.pullData(json=>{
                                 this.view.display();
@@ -208,7 +212,7 @@ class MealPlanController extends Controller {
                             if(this.debug) console.error("MealPlanController::clickPopupButtons::Save--push fail",err);
                         },json=>{
                             if(this.debug) console.log("MealPlanController::clickPopupButtons::Save--push done",json);
-                        });
+                        });*/
                     });
                 });
             });
