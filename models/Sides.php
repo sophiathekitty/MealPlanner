@@ -36,6 +36,7 @@ class Sides extends clsModel {
     public static function SaveSide($data){
         $sides = Sides::GetInstance();
         $side = $sides->LoadById($data['id']);
+        $data = $sides->CleanData($data);
         //print_r($data);
         //print_r($side);
         if(isset($data['id']) && !is_null($side)){

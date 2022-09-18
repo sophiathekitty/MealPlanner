@@ -1,4 +1,5 @@
-<pre><?php
+<?php
 require_once("../includes/main.php");
 SyncMealPlanners::Sync();
-?></pre>
+OutputJson([]);
+?>

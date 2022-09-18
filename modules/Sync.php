@@ -15,6 +15,7 @@ class SyncMealPlanners {
      * sync from the hub
      */
     public static function Sync(){
+        Debug::Trace("SyncMealPlanner::Sync");
         $inst = SyncMealPlanners::GetInstance();
         $inst->PullIngredientsFromHub();
         $inst->PullRecipesFromHub();
@@ -26,6 +27,7 @@ class SyncMealPlanners {
      * @return array today's meal
      */
     public static function Today(){
+        Debug::Trace("SyncMealPlanner::Today");
         $inst = SyncMealPlanners::GetInstance();
         $meal = MealPlan::GetTodaysMeal();
         if(!is_null($meal)) return $meal;
@@ -38,6 +40,7 @@ class SyncMealPlanners {
      * @return array tomorrow's meal
      */
     public static function Tomorrow($days = 1){
+        Debug::Trace("SyncMealPlanner::Tomorrow");
         $inst = SyncMealPlanners::GetInstance();
         $meal = MealPlan::GetTomorrowsMeal($days);
         if(!is_null($meal)) return $meal;
@@ -50,6 +53,7 @@ class SyncMealPlanners {
      * because i can't use server request passthrough for things with params
      */
     private function GetHubUrl(){
+        Debug::Trace("SyncMealPlanner::GetHubUrl");
         if(is_null($this->hub)) $this->hub = GetHubUrl();
         return "http://".$this->hub."/api/meal/";
     }
@@ -57,6 +61,7 @@ class SyncMealPlanners {
      * pull recipes from hub
      */
     public function PullRecipesFromHub(){
+        Debug::Trace("SyncMealPlanner::PullRecipesFromHub");
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/recipes";
         if(HubType() == "old_hub"){
             //$url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?verbose=1";
@@ -68,11 +73,11 @@ class SyncMealPlanners {
         //print_r($data);
         foreach($data['recipes'] as $recipe){
             Recipes::SaveRecipe($recipe);
-            echo clsDB::$db_g->get_err();
+            //echo clsDB::$db_g->get_err();
             foreach($recipe['ingredients'] as $ingredient){
                 $ingredient['recipe_id'] = $recipe['id'];
                 MealRecipeIngredient::SaveItem($ingredient);
-                echo clsDB::$db_g->get_err();
+                //echo clsDB::$db_g->get_err();
             }
         }
     }
@@ -80,35 +85,35 @@ class SyncMealPlanners {
      * pull sides from hub
      */
     public function PullSidesFromHub(){
-        
+        Debug::Trace("SyncMealPlanner::PullSidesFromHub");
         //echo "$url\n";
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/sides";
         if(HubType() == "old_hub"){
             //$url = "http://localhost/api/requests/hub/?api=/api/meal/recipe?sides=true&verbose=1";
             $url = $this->GetHubUrl()."recipe?sides=true&verbose=1";
         }
-        echo "\n\n\nPull Sides From Hub: $url\n\n";
+        //Debug::Log("Pull Sides From Hub: $url");
         $info = file_get_contents($url);
         $data = json_decode($info,true);
-        print_r($data);
+        Debug::Log("SyncMealPlanner::PullSidesFromHub",$url,$data);
         foreach($data['sides'] as $side){
-            echo "---------\n\n";
             $save = Sides::SaveSide($side);
-            print_r($save);
-            echo clsDB::$db_g->get_err();
+            Debug::Log("SyncMealPlanner::PullSidesFromHub",$save);
+            //echo clsDB::$db_g->get_err();
             foreach($side['ingredients'] as $ingredient){
                 $ingredient['side_id'] = $side['id'];
                 $save = MealSideIngredient::SaveItem($ingredient);
-                print_r($save);
-                echo clsDB::$db_g->get_err();
+                Debug::Log("SyncMealPlanner::PullSidesFromHub",$ingredient,$save);
+                //echo clsDB::$db_g->get_err();
             }
-            echo "\n\n===========\n\n";
+            //echo "\n\n===========\n\n";
         }
     }
     /**
      * pull ingredients from hub
      */
     public function PullIngredientsFromHub(){
+        Debug::Trace("SyncMealPlanner::PullIngredientsFromHub");
         //$url = $this->GetHubUrl()."recipe/ingredients";
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/ingredients";
         if(HubType() == "old_hub"){
@@ -121,13 +126,15 @@ class SyncMealPlanners {
         foreach($data['ingredients'] as $ingredients){
             if(isset($ingredients['name'])){
                 //print_r($ingredients);
-                MealIngredient::SaveItem($ingredients);
-                echo clsDB::$db_g->get_err();    
+                $rep = MealIngredient::SaveItem($ingredients);
+                Debug::Log("SyncMealPlanner::PullIngredientsFromHub",$rep);
+                //echo clsDB::$db_g->get_err();    
             } else {
                 foreach($ingredients as $ingredient){
                     //print_r($ingredient);
-                    MealIngredient::SaveItem($ingredient);
-                    echo clsDB::$db_g->get_err();    
+                    $rep = MealIngredient::SaveItem($ingredient);
+                    Debug::Log("SyncMealPlanner::PullIngredientsFromHub",$ingredient,$rep);
+                    //echo clsDB::$db_g->get_err();    
                 }    
             }
         }
@@ -136,6 +143,7 @@ class SyncMealPlanners {
      * pull 4 day meal plan (today, tomorrow, tomorrow2, tomorrow3)
      */
     public function PullMealPlanFromHub(){
+        Debug::Trace("SyncMealPlanner::PullMealPlanFromHub");
         //$url = $this->GetHubUrl();
         $url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/meal/";
         if(HubType() == "old_hub"){
@@ -148,11 +156,12 @@ class SyncMealPlanners {
         $tomorrow = $this->CleanMealPlan($data['meal_plan']['tomorrow']);
         $tomorrow2 = $this->CleanMealPlan($data['meal_plan']['tomorrow2']);
         $tomorrow3 = $this->CleanMealPlan($data['meal_plan']['tomorrow3']);
-        MealPlan::SaveMeal($today,true);
-        MealPlan::SaveMeal($tomorrow,true);
-        MealPlan::SaveMeal($tomorrow2,true);
-        MealPlan::SaveMeal($tomorrow3,true);
-        echo clsDB::$db_g->get_err()."\n";
+        $rep1 = MealPlan::SaveMeal($today,true);
+        $rep2 = MealPlan::SaveMeal($tomorrow,true);
+        $rep3 = MealPlan::SaveMeal($tomorrow2,true);
+        $rep4 = MealPlan::SaveMeal($tomorrow3,true);
+        Debug::Log("SyncMealPlanner::PullMealPlanFromHub",$rep1,$rep2,$rep3,$rep4);
+        //echo clsDB::$db_g->get_err()."\n";
         foreach($data['meal_plan']['schedule'] as $day){
             MealSchedule::SaveDay($day);
         }
@@ -163,6 +172,7 @@ class SyncMealPlanners {
      * @return array the clean meal array
      */
     private function CleanMealPlan($meal){
+        Debug::Trace("SyncMealPlanner::CleanMealPlan");
         $m = [
             "recipe_id" => $meal['id'],
             "side_id" => $meal['side_id'],
