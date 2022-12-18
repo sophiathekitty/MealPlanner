@@ -196,12 +196,15 @@ class MealTasks {
                 if($task == "cooked") $task = "cook";
                 if($task == "side_prepped") $task = "side_prep";
                 if($task == "side_cooked") $task = "side_cook";
-                $url = "http://".GetHubUrl()."/api/meal/?meal_date=$date&task=$task";
+                $api = "/api/meal/?meal_date=$date&task=$task";
+                //$url = "http://".GetHubUrl()."/api/meal/?meal_date=$date&task=$task";
             } else {
-                $url = "http://".GetHubUrl()."/extensions/MealPlanner/api/tasks?date=$date&task=$task";
+                $api = "/extensions/MealPlanner/api/tasks?date=$date&task=$task";
+                //$url = "http://".GetHubUrl()."/extensions/MealPlanner/api/tasks?date=$date&task=$task";
             }
-            $info = file_get_contents($url);
-            $data['remote'] = json_decode($info,true);    
+            //$info = file_get_contents($url);
+            //$data['remote'] = json_decode($info,true);    
+            $data['remote'] = ServerRequests::LoadHubJSON($api);    
         }
         return $data;
     }

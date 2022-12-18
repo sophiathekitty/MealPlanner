@@ -2,7 +2,7 @@
 require_once("../../../includes/main.php");
 $data = [];
 if(isset($_GET['date'])){
-    $data['get'] = $_GET;
+    //$data['get'] = $_GET;
     $data['save'] = MealPlan::SaveMeal($_GET);
     $data['meal_reloaded'] = MealStamp::Stamp(MealPlan::GetMeal($_GET['date']));
     if(!IsHub()){
@@ -10,24 +10,26 @@ if(isset($_GET['date'])){
             $date = $_GET['date'];
             $recipe_id = $_GET['recipe_id'];
             $side_id = $_GET['side_id'];
-            $url = "http://".GetHubUrl()."/api/meal/?meal_date=$date&recipe_id=$recipe_id&side_id=$side_id";
+            $api = "/api/meal/?meal_date=$date&recipe_id=$recipe_id&side_id=$side_id";
+            //$url = "http://".GetHubUrl()."/api/meal/?meal_date=$date&recipe_id=$recipe_id&side_id=$side_id";
         } else{
-            $url = "http://".GetHubUrl()."/extensions/MealPlanner/api/meal/save";
+            $api = "/extensions/MealPlanner/api/meal/save";
             $first = true;
             foreach($_GET as $key => $value){
                 if(!is_array($value)){
                     if($first){
-                        $url .= "?";
+                        $api .= "?";
                     } else {
-                        $url .= "&";
+                        $api .= "&";
                     }
-                    $params .= $key."=".$value;
+                    $api .= $key."=".$value;
                     $first = false;
                 }
             }
         }
-        $info = file_get_contents($url);
-        $data['remote'] = json_decode($info,true);    
+        //$info = file_get_contents($url);
+        //$data['remote'] = json_decode($info,true);    
+        $data['remote'] = ServerRequests::LoadHubJSON($api);
     }
 }
 $data['meals'] = [];

@@ -1,7 +1,8 @@
-<pre><?php
+<?php
 require_once("../includes/main.php");
 //$servers = new Servers();
 //$servers->ValidateTable();
 //SyncRooms();
 SyncMealPlanners::Sync();
-?></pre>
+OutputJson([]);
+?>
