@@ -16,11 +16,13 @@ class SyncMealPlanners {
      */
     public static function Sync(){
         Debug::Trace("SyncMealPlanner::Sync");
+        Services::Start("SyncMealPlanners");
         $inst = SyncMealPlanners::GetInstance();
         $inst->PullIngredientsFromHub();
         $inst->PullRecipesFromHub();
         $inst->PullSidesFromHub();
         $inst->PullMealPlanFromHub();
+        Services::Complete("SyncMealPlanners");
     }
     /**
      * sync today's meal from the hub if it doesn't exist locally
@@ -62,6 +64,7 @@ class SyncMealPlanners {
      */
     public function PullRecipesFromHub(){
         Debug::Trace("SyncMealPlanner::PullRecipesFromHub");
+        Services::Log("SyncMealPlanner","PullRecipesFromHub");
         $api = "/extensions/MealPlanner/api/recipes";
         //$url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/recipes";
         if(HubType() == "old_hub"){
@@ -73,6 +76,7 @@ class SyncMealPlanners {
         //$info = file_get_contents($url);
         //$data = json_decode($info,true);
         $data = ServerRequests::LoadHubJSON($api);
+        Services::Log("SyncMealPlanner","PullRecipesFromHub::api::$api");
         //print_r($data);
         foreach($data['recipes'] as $recipe){
             Recipes::SaveRecipe($recipe);
@@ -89,6 +93,7 @@ class SyncMealPlanners {
      */
     public function PullSidesFromHub(){
         Debug::Trace("SyncMealPlanner::PullSidesFromHub");
+        Services::Log("SyncMealPlanner","PullSidesFromHub");
         //echo "$url\n";
         $api = "/extensions/MealPlanner/api/sides";
         //$url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/sides";
@@ -101,14 +106,15 @@ class SyncMealPlanners {
         //$info = file_get_contents($url);
         //$data = json_decode($info,true);
         $data = ServerRequests::LoadHubJSON($api);
+        Services::Log("SyncMealPlanner","PullSidesFromHub::api::$api");
         Debug::LogGroup("SyncMealPlanner::PullSidesFromHub",$api,$data);
         foreach($data['sides'] as $side){
             $save = Sides::SaveSide($side);
-            Debug::Log("SyncMealPlanner::PullSidesFromHub",$save);
+            //Debug::Log("SyncMealPlanner::PullSidesFromHub",$save);
             foreach($side['ingredients'] as $ingredient){
                 $ingredient['side_id'] = $side['id'];
                 $save = MealSideIngredient::SaveItem($ingredient);
-                Debug::LogGroup("SyncMealPlanner::PullSidesFromHub",$ingredient,$save);
+                //Debug::LogGroup("SyncMealPlanner::PullSidesFromHub",$ingredient,$save);
             }
         }
     }
@@ -117,6 +123,7 @@ class SyncMealPlanners {
      */
     public function PullIngredientsFromHub(){
         Debug::Trace("SyncMealPlanner::PullIngredientsFromHub");
+        Services::Log("SyncMealPlanner","PullIngredientsFromHub");
         //$url = $this->GetHubUrl()."recipe/ingredients";
         $api = "/extensions/MealPlanner/api/ingredients";
         //$url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/ingredients";
@@ -127,6 +134,7 @@ class SyncMealPlanners {
         //echo "$url\n";
         //$info = file_get_contents($url);
         //$data = json_decode($info,true);
+        Services::Log("SyncMealPlanner","PullIngredientsFromHub::api::$api");
         $data = ServerRequests::LoadHubJSON($api);
         //print_r($data);
         foreach($data['ingredients'] as $ingredients){
@@ -150,6 +158,7 @@ class SyncMealPlanners {
      */
     public function PullMealPlanFromHub(){
         Debug::Trace("SyncMealPlanner::PullMealPlanFromHub");
+        Services::Log("SyncMealPlanner","PullMealPlanFromHub");
         //$url = "http://localhost/api/requests/hub/?api=/extensions/MealPlanner/api/meal/";
         $api = "/extensions/MealPlanner/api/meal/";
         if(HubType() == "old_hub"){
@@ -158,6 +167,7 @@ class SyncMealPlanners {
         }
         //$info = file_get_contents($url);
         //$data = json_decode($info,true);
+        Services::Log("SyncMealPlanner","PullMealPlanFromHub::api::$api");
         $data = ServerRequests::LoadHubJSON($api);
         //print_r($data['meal_plan']['today']);
         $today = $this->CleanMealPlan($data['meal_plan']['today']);
