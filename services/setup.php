@@ -15,7 +15,7 @@ if(defined("SETUP_MODE")){
         $db_info['database'] = "MealPlanner";
         CreateSettingsFile($db_info);
     }
-    file_get_contents("../helpers/validate_models.php");
+	$content = ServerRequests::LoadLocalhostJSON("/services/every_minute.php");
 }
 /**
  * create the settings.php file
